@@ -1,0 +1,16 @@
+body{
+    background: rgb(240, 240, 240);
+    text-align: center;
+    margin: 0;
+}
+#canvas_wrapper{
+    position: relative;
+    width: 700px;
+    height: 600px;
+    margin: 3px auto;
+}
+canvas{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
