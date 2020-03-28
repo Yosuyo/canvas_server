@@ -266,22 +266,22 @@ function background() {
 }
 function setButton() {
     var img1 = new Image(50,50);
-    img1.src = "images/bond_icon.png";
+    img1.src = "../static/images/bond_icon.png";
     img1.onload = function(){
         base.drawImage(img1,0,50);
     };
     var img2 = new Image(50,50);
-    img2.src = "images/hetero_icon.png";
+    img2.src = "../static/images/hetero_icon.png";
     img2.onload = function(){
         base.drawImage(img2,0,110);
     };
     var img3 = new Image(50,50);
-    img3.src = "images/eraser_icon.png";
+    img3.src = "../static/images/eraser_icon.png";
     img3.onload = function(){
         base.drawImage(img3,0,170);
     };
     var img4 = new Image(50,50);
-    img4.src = "images/delete_icon.png";
+    img4.src = "../static/images/delete_icon.png";
     img4.onload = function(){
         base.drawImage(img4,0,230);
     };

@@ -9,9 +9,14 @@ def home():
 def main():
     return render_template("main.html")
 
-@app.route("/show/<name>", methods=["GET"])
+@app.route("/test", methods=["GET","POST"])
 def main_test(name):
-    return "Smiles, {}".format(name)
+
+    if request.methods =="POST":
+        param = request.
+        return "Smiles, {}".format(name)
+    else:
+        return render_template("main.html")
 
 if __name__ == "__main__":
     app.run()
