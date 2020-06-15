@@ -1,5 +1,5 @@
-var winWidth = 700; //キャンバス横幅
-var winHeight = 600; //キャンバス縦幅
+var winWidth = 500; //キャンバス横幅
+var winHeight = 400; //キャンバス縦幅
 var len = 40; //結合長
 var symbolList1 = ["C","O","H","N","S"];
 
@@ -262,7 +262,7 @@ c4.onmouseup = function (up) {
 
 function background() {
     base.fillStyle = "rgb(255,255,255)";
-    base.fillRect(60, 30, 610, 540);
+    base.fillRect(60, 30, 500, 400);
 }
 function setButton() {
     var img1 = new Image(50,50);

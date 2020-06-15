@@ -1,12 +1,56 @@
 body{
-    background: rgb(240, 240, 240);
+    background: rgb(255, 255, 255);
     text-align: center;
-    margin: 0;
+    margin: 20px;
+}
+.MainContainer{
+    position: static;
+    width: 1200px;
+    height: 720px;
+    margin: 0 auto;
+}
+.MainItem{
+    float: left;;
+}
+#CanvasContainer{
+    background-color: #e4fcff;
+    display: block;
+    position: relative;
+    width: 590px;
+    height: 704px;
+    margin: 5px;
+    box-shadow: 0 3px 4px rgb(68, 68, 68);
+    border-top: solid 6px rgb(59, 199, 255);
+}
+#ReactionContainer{
+    display: block;
+    position: relative;
+    width: 600px;
+    height: 720px;
+}
+#ReactionListContainer{
+    display: block;
+    position: relative;
+    width: 590px;
+    height: 384px;
+    margin: 5px;
+    box-shadow: 0 3px 4px rgb(68, 68, 68);
+    border-top: solid 6px rgb(59, 199, 255);
+}
+#ReactonDetailContainer{
+    display: block;
+    position: relative;
+    width: 590px;
+    height: 304px;
+    margin: 5px;
+    margin-top: 10px;
+    box-shadow: 0 3px 4px rgb(68, 68, 68);
+    border-top: solid 6px rgb(59, 199, 255);
 }
 #canvas_wrapper{
     position: relative;
-    width: 700px;
-    height: 600px;
+    width: 500px;
+    height: 400px;
     margin: 3px auto;
 }
 canvas{
