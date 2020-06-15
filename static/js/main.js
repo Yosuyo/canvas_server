@@ -30,7 +30,7 @@ c4.onmousedown = function (down) {
     downX = down.offsetX;
     downY = down.offsetY;
     //キャンバス内
-    if (60 <= downX && downX <= 670 && 30 <= downY && downY <= 570) {
+    if (60 <= downX && downX <= 670) {
         if (status == 0) {
             switch (moveFlag) {
                 case 0:
@@ -125,6 +125,9 @@ c4.onmousemove = function (move) {
     if(status==2){
         return;
     }
+    if(moveX <= 60){
+        return;
+    }
     var atom = atoms.find(function (nowAtom) {
         return inRound(moveX, moveY, nowAtom[1], nowAtom[2]);
     });
@@ -199,10 +202,13 @@ c4.onmouseup = function (up) {
     if(status==2||status==3){
         return;
     }
-    clear(eff1);
-    clear(eff2);
     upX = up.offsetX;
     upY = up.offsetY;
+    if(upX <= 60){
+        return;
+    }
+    clear(eff1);
+    clear(eff2);
     switch (downFlag) {
         case 0:
             break;
@@ -262,7 +268,7 @@ c4.onmouseup = function (up) {
 
 function background() {
     base.fillStyle = "rgb(255,255,255)";
-    base.fillRect(60, 30, 500, 400);
+    base.fillRect(60, 0, 500, 400);
 }
 function setButton() {
     var img1 = new Image(50,50);
@@ -594,6 +600,7 @@ function redraw() {
         }
     }
 }
+//原子の表は以下を改変する
 function showAtomList(){
     eff2.fillStyle="rgb(100,100,100)";
     eff2.fillRect(100,100,390,270);
@@ -645,3 +652,4 @@ function setAtom(x,y){
     main.fillStyle="rgb(0,0,0)";
     main.fillText(atomSym,x-8,y+8);
 }
+//原子の表は以上を改変する
