@@ -1,23 +1,23 @@
 body{
     background: rgb(255, 255, 255);
     text-align: center;
-    margin: 20px;
+    margin: 5px;
 }
 .MainContainer{
     position: static;
     width: 1200px;
-    height: 720px;
+    height: 590px;
     margin: 0 auto;
 }
 .MainItem{
     float: left;;
 }
 #CanvasContainer{
-    background-color: #e4fcff;
+    background-color: #cbf5fa;
     display: block;
     position: relative;
     width: 590px;
-    height: 704px;
+    height: 584px;
     margin: 5px;
     box-shadow: 0 3px 4px rgb(68, 68, 68);
     border-top: solid 6px rgb(59, 199, 255);
@@ -26,18 +26,20 @@ body{
     display: block;
     position: relative;
     width: 600px;
-    height: 720px;
+    height: 580px;
 }
 #ReactionListContainer{
+    background-color: #cbf5fa;
     display: block;
     position: relative;
     width: 590px;
-    height: 384px;
+    height: 264px;
     margin: 5px;
     box-shadow: 0 3px 4px rgb(68, 68, 68);
     border-top: solid 6px rgb(59, 199, 255);
 }
 #ReactonDetailContainer{
+    background-color: #cbf5fa;
     display: block;
     position: relative;
     width: 590px;

@@ -18,6 +18,9 @@
         <canvas id="canvas4" class="main" width="500" height="400" style="touch-action: none; cursor: inherit;"></canvas>
       </div>
       <script>
+        //グローバル関数(出力smiles)
+        var SMILES = ""
+        //原子結合リスト表示
         function showList() {
           console.log(atoms);
           console.log(bonds);
@@ -252,17 +255,47 @@
           console.log(smiles7);
           console.log(smilesOutList);
           console.log(smilesOut);
+          SMILES = smilesOut;
+          var outSMILES = document.getElementById("showSMILES");
+          outSMILES.innerHTML = smilesOut;
         }
       </script>
       <input type="button" value="showList" onclick="showList()">
       <input type="button" value="showSmiles" onclick="showSmiles()">
+      <script>
+        function sendSMILES(){
+          var RR = document.getElementById("reactionResponse");
+          RR.innerHTML = "反応表示";
+          var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
+          fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES)
+            .then(response => response.text())
+            .then(text => {
+              RR.innerHTML = text;
+            })
+        }
+      </script>
+      <input type="button" value="submit" onclick="sendSMILES()">
       <h3 id="show">
         デフォルト
       </h3>
+      <h3 id="showSMILES"></h3>
     </div>
     <div id="ReactionContainer" class="MainItem">
       <div id="ReactionListContainer">
         反応を列挙
+        <div id="reactionResponse">
+          非表示
+        </div>
+        <script>
+          //反応の列挙部分スクリプト
+          var RR = document.getElementById("reactionResponse");
+          RR.innerHTML = "反応表示";
+          fetch("http://127.0.0.1:5000/main/reaction")
+            .then(response => response.text())
+            .then(text => {
+              RR.innerHTML = text;
+            })
+        </script>
       </div>
       <div id="ReactonDetailContainer">
         反応の詳細
