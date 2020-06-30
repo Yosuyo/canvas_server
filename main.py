@@ -9,11 +9,6 @@ def home():
 def main():
     return render_template("main.html")
 
-@app.route("/main/test", methods=["GET"])
-def main_test():
-    test_result = "TEST"
-    return render_template("main.html", test_result = test_result)
-
 @app.route("/main/reaction")
 def reactionDef():
     return "REACTION!!"
@@ -25,10 +20,24 @@ def returnSmiles():
     out = get.translate(str.maketrans({"~":r"#"})) #送られてきたsmilesの~を#に翻訳
     out = re.sub("H","",out) #送られてきたsmilesのHを削除
 
-    from rdkit import Chem
-    mol = Chem.MolFromSmiles(out)
+    import search
+    results = search.searchReaction(out)
 
-    return Chem.MolToSmiles(mol)
+    return render_template("list.html", results = results)
+
+@app.route("/main/detail")
+def reactionDetail():
+    getid = request.args.get("id","")
+    
+    import sql
+    reaction = sql.sqlSELECT("SELECT * FROM reaction WHERE id = %s" % str(getid))
+    print(reaction)
+
+    return reaction[0]["name"]
+
+@app.route("/main/test")
+def glap_test():
+    return render_template("imgtest.html")
 
 if __name__ == "__main__":
     app.run()

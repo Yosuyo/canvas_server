@@ -1,0 +1,3 @@
+anacondaについて
+　rdkitはconda-forgeからダウンロードするのが最も良い
+　flaskをconda環境に入れ忘れないように。別ディレクトリでflaskが実行されるため、rdkitが見失われる

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>sample</title>
-  <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/main.css">
 </head>
 
 <body>
@@ -289,7 +289,6 @@
         <script>
           //反応の列挙部分スクリプト
           var RR = document.getElementById("reactionResponse");
-          RR.innerHTML = "反応表示";
           fetch("http://127.0.0.1:5000/main/reaction")
             .then(response => response.text())
             .then(text => {
@@ -298,13 +297,34 @@
         </script>
       </div>
       <div id="ReactonDetailContainer">
-        反応の詳細
+        <div id="reactionDetail"></div>
+          反応の詳細
+        <script>
+          //反応の列挙部分スクリプト
+          var img = document.getElementById("reactionDetail");
+          fetch("http://127.0.0.1:5000/main/test")
+            .then(response => response.text())
+            .then(text => {
+              img.innerHTML = text;
+            })
+        </script>
       </div>
     </div>
   </div>
-  <p>
-    {{ test_result }}
-  </p>
+
+  <!-- 反応の詳細をgetするスクリプト -->
+  <script>
+    function getReactionDetail(id){
+      var RD = document.getElementById("reactionDetail");
+      RR.innerHTML = "反応表示";
+      var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
+      fetch("http://127.0.0.1:5000/main/detail?id="+String(id))
+        .then(response => response.text())
+        .then(text => {
+          RD.innerHTML = text;
+        })
+    }
+  </script>
 
   <script>
     //ステータス 0:デフォルト 1:消しゴム 2:原子選択 3:指定原子変換
@@ -316,7 +336,7 @@
     //smiles
     var smiles = "";
   </script>
-  <script src="../static/js/main.js"></script>
+  <script src="/static/js/main.js"></script>
 </body>
 
 </html>
