@@ -28,12 +28,12 @@ def returnSmiles():
 @app.route("/main/detail")
 def reactionDetail():
     getid = request.args.get("id","")
+    getsmiles = request.args.get("smiles","")
     
     import sql
     reaction = sql.sqlSELECT("SELECT * FROM reaction WHERE id = %s" % str(getid))
-    print(reaction)
 
-    return reaction[0]["name"]
+    return reaction[0]["name"]+getsmiles
 
 @app.route("/main/test")
 def glap_test():

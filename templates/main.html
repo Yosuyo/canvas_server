@@ -316,9 +316,8 @@
   <script>
     function getReactionDetail(id){
       var RD = document.getElementById("reactionDetail");
-      RR.innerHTML = "反応表示";
       var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-      fetch("http://127.0.0.1:5000/main/detail?id="+String(id))
+      fetch("http://127.0.0.1:5000/main/detail?id="+String(id)+"&smiles="+rSMILES)
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
