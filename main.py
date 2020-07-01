@@ -33,7 +33,26 @@ def reactionDetail():
     import sql
     reaction = sql.sqlSELECT("SELECT * FROM reaction WHERE id = %s" % str(getid))
 
-    return reaction[0]["name"]+getsmiles
+    #入力構造式のsvgを作成
+    import structure
+    structure.createImage(getsmiles)
+    #smartsによる変換の実行
+    from rdkit import Chem
+    from rdkit.Chem import AllChem
+    mol = Chem.MolFromSmiles(getsmiles)
+    rxn = AllChem.ReactionFromSmarts(reaction[0]["smarts"])
+    precursor = rxn.RunReactants([mol])
+    #出力構造式のsvgを作成
+    prelist = []
+    print(prelist)
+    for x in precursor:
+        prelist.append(Chem.MolToSmiles(x[0]))
+        print(Chem.MolToSmiles(x[0]))
+    prelist = list(set(prelist)) #被り無しの前駆体smilesリスト
+    for item in prelist:
+        structure.createImage(item)
+
+    return render_template("detail.html", prelist = prelist, getsmiles = getsmiles)
 
 @app.route("/main/test")
 def glap_test():
