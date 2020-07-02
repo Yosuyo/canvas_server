@@ -35,7 +35,7 @@ def reactionDetail():
 
     #入力構造式のsvgを作成
     import structure
-    structure.createImage(getsmiles)
+    structure.createImageHighlight(getsmiles, reaction[0]["site"])
     #smartsによる変換の実行
     from rdkit import Chem
     from rdkit.Chem import AllChem
@@ -46,13 +46,21 @@ def reactionDetail():
     prelist = []
     print(prelist)
     for x in precursor:
-        prelist.append(Chem.MolToSmiles(x[0]))
-        print(Chem.MolToSmiles(x[0]))
-    prelist = list(set(prelist)) #被り無しの前駆体smilesリスト
-    for item in prelist:
-        structure.createImage(item)
+        xlist = []
+        for y in x:
+            xlist.append(Chem.MolToSmiles(y))
+            print(Chem.MolToSmiles(y))
+        prelist.append(xlist)
+    def get_unique_list(seq): #リスト内の被りを削除する関数
+        seen = []
+        return [x for x in seq if x not in seen and not seen.append(x)]
+    prelist = get_unique_list(prelist)
+    for x in prelist:
+        for y in x:
+            structure.createImage(y)
+    print(reaction)
 
-    return render_template("detail.html", prelist = prelist, getsmiles = getsmiles)
+    return render_template("detail.html", prelist = prelist, getsmiles = getsmiles, reaction = reaction[0])
 
 @app.route("/main/test")
 def glap_test():
