@@ -23,12 +23,13 @@ def returnSmiles():
     import search
     results = search.searchReaction(out)
 
-    return render_template("list.html", results = results)
+    return render_template("list.html", results=results)
 
 @app.route("/main/detail")
 def reactionDetail():
     getid = request.args.get("id","")
     getsmiles = request.args.get("smiles","")
+    getsmiles = getsmiles.translate(str.maketrans({"~":r"#"}))
     
     import sql
     reaction = sql.sqlSELECT("SELECT * FROM reaction WHERE id = %s" % str(getid))
@@ -44,12 +45,10 @@ def reactionDetail():
     precursor = rxn.RunReactants([mol])
     #出力構造式のsvgを作成
     prelist = []
-    print(prelist)
     for x in precursor:
         xlist = []
         for y in x:
             xlist.append(Chem.MolToSmiles(y))
-            print(Chem.MolToSmiles(y))
         prelist.append(xlist)
     def get_unique_list(seq): #リスト内の被りを削除する関数
         seen = []
@@ -58,13 +57,35 @@ def reactionDetail():
     for x in prelist:
         for y in x:
             structure.createImage(y)
-    print(reaction)
 
-    return render_template("detail.html", prelist = prelist, getsmiles = getsmiles, reaction = reaction[0])
+    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=0)
 
-@app.route("/main/test")
-def glap_test():
-    return render_template("imgtest.html")
+@app.route("/main/detail_celect")
+def reactionDetailCelect():
+    getid = request.args.get("id","")
+    getnum = request.args.get("num","")
+    getsmiles = request.args.get("smiles","")
+    getsmiles = getsmiles.translate(str.maketrans({"~":r"#"}))
+    import sql
+    reaction = sql.sqlSELECT("SELECT * FROM reaction WHERE id = %s" % str(getid))
+    #smartsによる変換の実行
+    from rdkit import Chem
+    from rdkit.Chem import AllChem
+    mol = Chem.MolFromSmiles(getsmiles)
+    rxn = AllChem.ReactionFromSmarts(reaction[0]["smarts"])
+    precursor = rxn.RunReactants([mol])
+    prelist = []
+    for x in precursor:
+        xlist = []
+        for y in x:
+            xlist.append(Chem.MolToSmiles(y))
+        prelist.append(xlist)
+    def get_unique_list(seq): #リスト内の被りを削除する関数
+        seen = []
+        return [x for x in seq if x not in seen and not seen.append(x)]
+    prelist = get_unique_list(prelist)
+
+    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=int(getnum))
 
 if __name__ == "__main__":
     app.run()

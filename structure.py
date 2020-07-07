@@ -40,9 +40,9 @@ def createImageHighlight(smiles, smarts):
     drawer = rdMolDraw2D.MolDraw2DSVG(300, 300)
     # define drawer options
     drawer.drawOptions().updateAtomPalette({k: (0, 0, 0) for k in DrawingOptions.elemDict.keys()})
-    drawer.SetLineWidth(4)
+    drawer.SetLineWidth(2)
     drawer.SetFontSize(1.0)
-    drawer.drawOptions().setHighlightColour((0.9,0.6,0.9)) #ハイライトの色指定
+    drawer.drawOptions().setHighlightColour((0.95,0.7,0.95)) #ハイライトの色指定
     drawer.DrawMolecule(tm, highlightAtoms=hitatomsSum)
     drawer.FinishDrawing()
     # generate and write the svg strings

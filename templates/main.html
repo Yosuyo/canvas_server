@@ -265,12 +265,13 @@
       <script>
         function sendSMILES(){
           var RR = document.getElementById("reactionResponse");
-          RR.innerHTML = "反応表示";
+          var RD = document.getElementById("reactionDetail");
           var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
           fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES)
             .then(response => response.text())
             .then(text => {
               RR.innerHTML = text;
+              RD.innerHTML = "反応を選択してください"
             })
         }
       </script>
@@ -299,15 +300,6 @@
       <div id="ReactonDetailContainer">
         <div id="reactionDetail"></div>
           <!--反応の詳細-->
-        <script>
-          //反応の列挙部分スクリプト
-          var img = document.getElementById("reactionDetail");
-          fetch("http://127.0.0.1:5000/main/test")
-            .then(response => response.text())
-            .then(text => {
-              img.innerHTML = text;
-            })
-        </script>
       </div>
     </div>
   </div>
@@ -323,6 +315,19 @@
           RD.innerHTML = text;
         })
     }
+  </script>
+  <script>
+    //反応詳細の別パターンを表示するスクリプト
+    function getReactionPattern(id, num){
+      var RD = document.getElementById("reactionDetail");
+      var rSMILES = SMILES.replace(/#/g,"~")
+      fetch("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES)
+        .then(response => response.text())
+        .then(text => {
+          RD.innerHTML = text;
+          console.log("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES)
+        })
+      }
   </script>
 
   <script>
