@@ -9,10 +9,6 @@ def home():
 def main():
     return render_template("main.html")
 
-@app.route("/main/reaction")
-def reactionDef():
-    return "REACTION!!"
-
 @app.route("/main/smiles")
 def returnSmiles():
     import re
@@ -86,6 +82,15 @@ def reactionDetailCelect():
     prelist = get_unique_list(prelist)
 
     return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=int(getnum))
+
+@app.route("/main/upload", methods=["POST"])
+def upload_additionalData():
+    if "file" not in request.files:
+        return "ファイルが正しく選択されていません"
+    fs = request.files["file"]
+    filename = fs.filename
+
+    return render_template("main.html", filename=filename)
 
 if __name__ == "__main__":
     app.run()

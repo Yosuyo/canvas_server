@@ -12,10 +12,10 @@
     <div id="CanvasContainer" class="MainItem">
       <p></p>
       <div id="canvas_wrapper">
-        <canvas id="canvas1" class="main" width="500" height="400" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas2" class="main" width="500" height="400" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas3" class="main" width="500" height="400" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas4" class="main" width="500" height="400" style="touch-action: none; cursor: inherit;"></canvas>
+        <canvas id="canvas1" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+        <canvas id="canvas2" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+        <canvas id="canvas3" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+        <canvas id="canvas4" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
       </div>
       <script>
         //グローバル関数(出力smiles)
@@ -260,6 +260,7 @@
           outSMILES.innerHTML = smilesOut;
         }
       </script>
+      <input type="button" value="設定" onclick="config_open()">
       <input type="button" value="showList" onclick="showList()">
       <input type="button" value="showSmiles" onclick="showSmiles()">
       <script>
@@ -267,19 +268,19 @@
           var RR = document.getElementById("reactionResponse");
           var RD = document.getElementById("reactionDetail");
           var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-          fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES)
+          fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES+"&additionlFilename="+additionalFilename)
             .then(response => response.text())
             .then(text => {
               RR.innerHTML = text;
               RD.innerHTML = "反応を選択してください"
             })
-        }
+          }
       </script>
       <input type="button" value="submit" onclick="sendSMILES()">
-      <h3 id="show">
+      <h4 id="show">
         デフォルト
-      </h3>
-      <h3 id="showSMILES"></h3>
+      </h4>
+      <h4 id="showSMILES"></h4>
     </div>
     <div id="ReactionContainer" class="MainItem">
       <div id="ReactionListContainer">
@@ -287,15 +288,6 @@
         <div id="reactionResponse">
           非表示
         </div>
-        <script>
-          //反応の列挙部分スクリプト
-          var RR = document.getElementById("reactionResponse");
-          fetch("http://127.0.0.1:5000/main/reaction")
-            .then(response => response.text())
-            .then(text => {
-              RR.innerHTML = text;
-            })
-        </script>
       </div>
       <div id="ReactonDetailContainer">
         <div id="reactionDetail"></div>
@@ -325,10 +317,32 @@
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
-          console.log("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES)
         })
       }
   </script>
+  <!--設定のモーダルウィンドウ-->
+  <div id="config">
+    <p>設定</p>
+    <form method="post" action="http://127.0.0.1:5000/main/upload" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <button>upload</button>
+      <div id="filename">{{ filename }}</div>
+    </form>
+    <div>　</div>
+    <input type="button" value="閉じる" onclick="config_close()">
+  </div>
+  <div id="overlay"></div>
+  <script>
+    function config_open(){
+      document.getElementById("config").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    function config_close(){
+      document.getElementById("config").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+  <!--設定のモーダルウィンドウここまで-->
 
   <script>
     //ステータス 0:デフォルト 1:消しゴム 2:原子選択 3:指定原子変換
@@ -339,6 +353,8 @@
     var bonds = [];
     //smiles
     var smiles = "";
+    //追加データのアドレス
+    var additionalFilename = document.getElementById("filename").textContent;
   </script>
   <script src="/static/js/main.js"></script>
 </body>

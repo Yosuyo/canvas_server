@@ -19,5 +19,15 @@ def searchReaction(smiles):
 
     return hitData
 
-if __name__ == "__main__":
-    searchReaction("CC=C")
+def searchAdditionalReaction(smiles, fileName):
+    from rdkit import Chem
+    from rdkit.Chem import AllChem
+    import csv
+    mol = Chem.MolFromSmiles(smiles)
+    data = []
+    with open("/static/csv/"+fileName) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            data.append(row)
+    print(type(data))
+    print(data)

@@ -1,5 +1,5 @@
 var winWidth = 500; //キャンバス横幅
-var winHeight = 400; //キャンバス縦幅
+var winHeight = 350; //キャンバス縦幅
 var len = 40; //結合長
 var symbolList1 = ["C","O","H","N","S"];
 
@@ -30,7 +30,7 @@ c4.onmousedown = function (down) {
     downX = down.offsetX;
     downY = down.offsetY;
     //キャンバス内
-    if (60 <= downX && downX <= 670) {
+    if (60 <= downX && downX <= 500) {
         if (status == 0) {
             switch (moveFlag) {
                 case 0:

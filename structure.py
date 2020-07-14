@@ -1,3 +1,4 @@
+#smiles文字列から構造式のsvgを返す関数
 def createImage(smiles):
     from rdkit import Chem
     from rdkit.Chem import rdDepictor
@@ -20,6 +21,7 @@ def createImage(smiles):
     with open("static/images/svgs/"+smiles+".svg", "w") as f:
         f.write(svg)
 
+#smiles文字列と反応部位smartsから反応部位をハイライトしたsvgを返す関数
 def createImageHighlight(smiles, smarts):
     from rdkit import Chem
     from rdkit.Chem import AllChem
