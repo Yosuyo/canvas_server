@@ -301,7 +301,7 @@
     function getReactionDetail(id){
       var RD = document.getElementById("reactionDetail");
       var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-      fetch("http://127.0.0.1:5000/main/detail?id="+String(id)+"&smiles="+rSMILES)
+      fetch("http://127.0.0.1:5000/main/detail?id="+String(id)+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
@@ -313,7 +313,7 @@
     function getReactionPattern(id, num){
       var RD = document.getElementById("reactionDetail");
       var rSMILES = SMILES.replace(/#/g,"~")
-      fetch("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES)
+      fetch("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
