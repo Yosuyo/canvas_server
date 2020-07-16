@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<svg version='1.1' baseProfile='full'
+              xmlns='http://www.w3.org/2000/svg'
+                      xmlns:rdkit='http://www.rdkit.org/xml'
+                      xmlns:xlink='http://www.w3.org/1999/xlink'
+                  xml:space='preserve'
+width='300px' height='300px' viewBox='0 0 300 300'>
+<!-- END OF HEADER -->
+<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='300' height='300' x='0' y='0'> </rect>
+<path class='bond-0' d='M 54.3547,185.844 L 106.588,155.687' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1' d='M 154.607,155.687 L 212.159,188.914' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<text dominant-baseline="central" text-anchor="end" x='49.9547' y='204.76' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>C</tspan><tspan style='baseline-shift:super;font-size:30px;'>-</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="middle" x='130.598' y='148.425' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>P</tspan><tspan style='baseline-shift:super;font-size:30px;'>+</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='117.663' y='104.425' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>H</tspan><tspan style='baseline-shift:sub;font-size:30px;'>2</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='216.559' y='204.76' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>PH</tspan><tspan style='baseline-shift:sub;font-size:30px;'>2</tspan><tspan></tspan></text>
+</svg>

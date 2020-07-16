@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<svg version='1.1' baseProfile='full'
+              xmlns='http://www.w3.org/2000/svg'
+                      xmlns:rdkit='http://www.rdkit.org/xml'
+                      xmlns:xlink='http://www.w3.org/1999/xlink'
+                  xml:space='preserve'
+width='300px' height='300px' viewBox='0 0 300 300'>
+<!-- END OF HEADER -->
+<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='300' height='300' x='0' y='0'> </rect>
+<path class='bond-0' d='M 13.6364,137.432 L 67.1195,114.673' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1' d='M 109.785,121.641 L 129.421,136.411' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-2' d='M 177.44,144.253 L 212.232,129.448' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<text dominant-baseline="central" text-anchor="middle" x='88.452' y='112.196' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>C</tspan><tspan style='baseline-shift:super;font-size:30px;'>-</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="middle" x='153.431' y='161.07' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>P</tspan><tspan style='baseline-shift:super;font-size:30px;'>+</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='140.496' y='205.07' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>H</tspan><tspan style='baseline-shift:sub;font-size:30px;'>2</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='216.632' y='129.234' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>PH</tspan><tspan style='baseline-shift:sub;font-size:30px;'>2</tspan><tspan></tspan></text>
+</svg>

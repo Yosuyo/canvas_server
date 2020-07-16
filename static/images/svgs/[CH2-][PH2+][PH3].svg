@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<svg version='1.1' baseProfile='full'
+              xmlns='http://www.w3.org/2000/svg'
+                      xmlns:rdkit='http://www.rdkit.org/xml'
+                      xmlns:xlink='http://www.w3.org/1999/xlink'
+                  xml:space='preserve'
+width='300px' height='300px' viewBox='0 0 300 300'>
+<!-- END OF HEADER -->
+<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='300' height='300' x='0' y='0'> </rect>
+<path class='bond-0' d='M 54.3547,185.844 L 106.588,155.687' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1' d='M 154.607,155.687 L 212.159,188.914' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<text dominant-baseline="central" text-anchor="end" x='49.9547' y='204.76' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>C</tspan><tspan style='baseline-shift:super;font-size:30px;'>-</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="middle" x='130.598' y='148.425' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>P</tspan><tspan style='baseline-shift:super;font-size:30px;'>+</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='117.663' y='104.425' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>H</tspan><tspan style='baseline-shift:sub;font-size:30px;'>2</tspan><tspan></tspan></text>
+<text dominant-baseline="central" text-anchor="start" x='216.559' y='204.76' style='font-size:40px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;fill:#000000' ><tspan>PH</tspan><tspan style='baseline-shift:sub;font-size:30px;'>3</tspan><tspan></tspan></text>
+<path d='M 230.427,171.653 L 230.418,171.46 L 230.393,171.267 L 230.352,171.078 L 230.295,170.893 L 230.221,170.713 L 230.133,170.541 L 230.03,170.376 L 229.913,170.221 L 229.784,170.077 L 229.642,169.944 L 229.49,169.824 L 229.328,169.718 L 229.157,169.626 L 228.979,169.549 L 228.796,169.487 L 228.607,169.442 L 228.415,169.413 L 228.222,169.4 L 228.028,169.405 L 227.835,169.425 L 227.645,169.463 L 227.459,169.516 L 227.278,169.586 L 227.103,169.67 L 226.937,169.77 L 226.779,169.883 L 226.632,170.009 L 226.497,170.148 L 226.373,170.298 L 226.264,170.457 L 226.168,170.626 L 226.087,170.802 L 226.021,170.985 L 225.972,171.172 L 225.939,171.363 L 225.922,171.556 L 225.922,171.75 L 225.939,171.943 L 225.972,172.134 L 226.021,172.322 L 226.087,172.504 L 226.168,172.681 L 226.264,172.849 L 226.373,173.009 L 226.497,173.159 L 226.632,173.297 L 226.779,173.424 L 226.937,173.537 L 227.103,173.636 L 227.278,173.721 L 227.459,173.79 L 227.645,173.844 L 227.835,173.881 L 228.028,173.902 L 228.222,173.906 L 228.415,173.894 L 228.607,173.865 L 228.796,173.819 L 228.979,173.758 L 229.157,173.68 L 229.328,173.588 L 229.49,173.482 L 229.642,173.362 L 229.784,173.229 L 229.913,173.085 L 230.03,172.93 L 230.133,172.766 L 230.221,172.593 L 230.295,172.414 L 230.352,172.229 L 230.393,172.039 L 230.418,171.847 L 230.427,171.653 L 228.173,171.653 Z' style='fill:#000000;fill-rule:evenodd;fill-opacity=1;stroke:#000000;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;' />
+</svg>

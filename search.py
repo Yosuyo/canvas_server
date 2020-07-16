@@ -25,27 +25,26 @@ def searchAdditionalReaction(smiles, filename):
     import csv
     mol = Chem.MolFromSmiles(smiles)
     reactionData = []
-    with open("/static/csv/"+filename) as f:
+    with open("./static/csv/"+filename) as f:
         reader = csv.reader(f)
         for row in reader:
             reactionData.append(row)
-    hitId = []
-    for data in reactionData:
-        smarts = Chem.MolFromSmarts(data["site"])
-        if(mol.HasSubstructMatch(smarts)):
-            hitId.append(data["id"])
     hitData = []
-    for n in hitId:
-        hitData.append(reactionData[n-1])
+    for data in reactionData:
+        smarts = Chem.MolFromSmarts(data[2])
+        if(mol.HasSubstructMatch(smarts)):
+            dic = {"id":data[0],"name":data[1],"site":data[2],"smarts":data[3],"condition":data[4]}
+            hitData.append(dic)
     return hitData
 
 def getAdditionalReaction(id, filename):
     import csv
     reaction = []
-    with open("/static/csv/"+filename) as f:
+    with open("./static/csv/"+filename) as f:
         reader = csv.reader(f)
-        for row in reader:
-            if row[0] == id:
-                reaction = row
+        for data in reader:
+            if int(data[0]) == id:
+                dic = {"id":data[0],"name":data[1],"site":data[2],"smarts":data[3],"condition":data[4]}
+                reaction.append(dic)
                 break
     return reaction

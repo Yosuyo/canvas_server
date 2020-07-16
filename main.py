@@ -22,6 +22,7 @@ def returnSmiles():
     try:
         results = results + search.searchAdditionalReaction(out,getfilename)
     except:
+        print("pass")
         pass
 
     return render_template("list.html", results=results)
@@ -41,6 +42,7 @@ def reactionDetail():
         reaction = search.getAdditionalReaction(int(getid),getfilename)
     #入力構造式のsvgを作成
     import structure
+    print(reaction)
     structure.createImageHighlight(getsmiles, reaction[0]["site"])
     #smartsによる変換の実行
     from rdkit import Chem
@@ -100,7 +102,6 @@ def reactionDetailCelect():
 @app.route("/main/upload", methods=["POST"])
 def upload_additionalData():
     import os
-    import chardet
     if "file" not in request.files:
         return "エラー：ファイルが正しく選択されていません"
     fs = request.files["file"]
@@ -108,14 +109,16 @@ def upload_additionalData():
     if not filename.endswith(".csv"):
         return "エラー：ファイルがcsv形式ではありません"
     saveaddress = "./static/csv/"
-    fs.save(os.path.join(saveaddress, filename)) #保存
+    fs.save(os.path.join(saveaddress, "pre_"+filename)) #保存
     #Shift_JISならutf-8に変換
-    with open(saveaddress+filename,"rb") as f:
-        s = f.read()
-        e = chardet.detect(s)
-        print(e["encoding"])
-        if e["encoding"] != "ascii" and e["encoding"] != "utf-8":
-            return "エラー：エンコード形式をutf-8にして下さい"
+    try:
+        with open(saveaddress+"pre_"+filename,"rb") as f:
+            with open(saveaddress+filename,"w",newline="") as g:
+                g.write(f.read().decode(encoding="utf-8"))
+        os.remove(saveaddress+"pre_"+filename)
+    except:
+        pass
+
     return render_template("main.html", filename=filename)
 
 if __name__ == "__main__":
