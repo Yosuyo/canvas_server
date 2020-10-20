@@ -9,278 +9,344 @@
 
 <body>
   <div class="MainContainer">
-    <div id="CanvasContainer" class="MainItem">
-      <p></p>
-      <div id="canvas_wrapper">
-        <canvas id="canvas1" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas2" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas3" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-        <canvas id="canvas4" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+    <div id="InputContainer" class="MainItem">
+      <div id="TreeContainer" class="ly_accordion">
+        <label for="rta01" class="el_heading">ツリーを表示</label>
+        <input id="rta01" class="el_checkbox" type="checkbox">
+        <div class="bl_content">
+          <div class="bl_inner">
+            <div id="treeBase">
+              ここに反応ツリーを表示
+              <div id="tree_wrapper">
+                <div id="tree_main">
+                </div>
+                <div id="tree_button">
+                  <input type="text" id="treeTextSMILES" placeholder="ここにSMILESを入力">
+                  <input type="button" value="分子挿入" onclick="treeTextSMILES()">
+                  <input type="button" value="矢印挿入" onclick="insertArrow()">
+                  <input type="button" value="改行">
+                  <input type="button" value="削除" onclick="test_remove()">
+                </div>
+              </div>
+              <!--反応ツリー制御スクリプト-->
+              <script>
+                var arrow_id = 0;
+                var molecule_id = 0;
+                function test(){
+                  alert("test");
+                }
+                function insertArrow(){
+                  var div = document.getElementById("tree_main");
+                  var img = document.createElement("img");
+                  img.setAttribute("src","/static/images/arrow.png");
+                  img.setAttribute("oncontextmenu","return false;");
+                  img.setAttribute("id","arrow"+String(arrow_id));
+                  div.appendChild(img);
+                  treeArrowContextmenu("arrow"+String(arrow_id));
+                  arrow_id += 1;
+                }
+                function test_remove(){
+                  var div = document.getElementById("tree_main");
+                  if(div.hasChildNodes){
+                    div.removeChild(div.lastChild);
+                  }
+                }
+                function treeTextSMILES(){
+                  var TTS = document.getElementById("treeTextSMILES").value;
+                  treeSMILES(TTS)
+                }
+                function treeSMILES(SMILES){
+                  var div = document.getElementById("tree_main");
+                  var img = document.createElement("img");
+                  img.setAttribute("src","/static/images/svgs/"+SMILES+".svg");
+                  img.setAttribute("width","80px")
+                  img.setAttribute("height","80px")
+                  img.setAttribute("oncontextmenu","return false;");
+                  img.setAttribute("alt",SMILES)
+                  img.setAttribute("id","molecule"+String(molecule_id));
+                  div.appendChild(img);
+                  treeMoleculeContextmenu("molecule"+String(molecule_id));
+                  molecule_id += 1;
+                }
+              </script>
+            </div>
+          </div>
+        </div>
       </div>
-      <script>
-        //グローバル関数(出力smiles)
-        var SMILES = ""
-        //原子結合リスト表示
-        function showList() {
-          console.log(atoms);
-          console.log(bonds);
-        }
-        // グラフ構造を作成する
-        function showSmiles(){
-          //smiles用リスト
-          var smiles1 = []; //深さ優先探索オリジナル
-          //原子グラフ{原子id:[隣接原子id,...]}
-          var glaph_a = {};
-          //結合グラフ{原子id:[結合id,...]}
-          var glaph_b = {};
-          var array1 = [];
-          var array2 = [];
-          var array3 = [];
-          var array4 = [];
-          //グラフ構造の実装
-          for (var a in atoms){
-            glaph_a[a] = [];
-            glaph_b[a] = [];
+      <div id="CanvasContainer">
+        <p></p>
+        <div id="canvas_wrapper" onContextmenu="return false;">
+          <canvas id="canvas1" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+          <canvas id="canvas2" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+          <canvas id="canvas3" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+          <canvas id="canvas4" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+        </div>
+        <!--翻訳スクリプト-->
+        <script>
+          //グローバル関数(出力smiles)
+          var SMILES = ""
+          //原子結合リスト表示
+          function showList() {
+            console.log(atoms);
+            console.log(bonds);
           }
-          for (var b in bonds){
-            array1 = glaph_a[bonds[b][3]];
-            array2 = glaph_a[bonds[b][4]];
-            array1.push(bonds[b][4]);
-            array2.push(bonds[b][3]);
-            glaph_a[bonds[b][3]] = array1;
-            glaph_a[bonds[b][4]] = array2;
-            array3 = glaph_b[bonds[b][3]];
-            array4 = glaph_b[bonds[b][4]];
-            array3.push(+b);
-            array4.push(+b);
-            glaph_b[bonds[b][3]] = array3;
-            glaph_b[bonds[b][4]] = array4;
-          }
-          //深さ優先探索の実装
-          var S = []; //探索スタック
-          var seenAtom = []; //[false,false,...] 原子idとインデックスを対応 到達:true 未到達:false
-          for (var i in atoms){
-            seenAtom.push(false);
-          }
-          for(var m in glaph_a){
-            if(glaph_a[m].length==1){
-              S.push(Number(m));
-              seenAtom[Number(m)] = true;
-              break;
+          // グラフ構造を作成する
+          function showSmiles(){
+            //smiles用リスト
+            var smiles1 = []; //深さ優先探索オリジナル
+            //原子グラフ{原子id:[隣接原子id,...]}
+            var glaph_a = {};
+            //結合グラフ{原子id:[結合id,...]}
+            var glaph_b = {};
+            var array1 = [];
+            var array2 = [];
+            var array3 = [];
+            var array4 = [];
+            //グラフ構造の実装
+            for (var a in atoms){
+              glaph_a[a] = [];
+              glaph_b[a] = [];
             }
-          }
-          if(S.length==0){
-            for(var n in glaph_a){
-              if(glaph_a[n].length==2){
-                S.push(Number(n));
-                seenAtom[Number(n)] = true;
+            for (var b in bonds){
+              array1 = glaph_a[bonds[b][3]];
+              array2 = glaph_a[bonds[b][4]];
+              array1.push(bonds[b][4]);
+              array2.push(bonds[b][3]);
+              glaph_a[bonds[b][3]] = array1;
+              glaph_a[bonds[b][4]] = array2;
+              array3 = glaph_b[bonds[b][3]];
+              array4 = glaph_b[bonds[b][4]];
+              array3.push(+b);
+              array4.push(+b);
+              glaph_b[bonds[b][3]] = array3;
+              glaph_b[bonds[b][4]] = array4;
+            }
+            //深さ優先探索の実装
+            var S = []; //探索スタック
+            var seenAtom = []; //[false,false,...] 原子idとインデックスを対応 到達:true 未到達:false
+            for (var i in atoms){
+              seenAtom.push(false);
+            }
+            for(var m in glaph_a){
+              if(glaph_a[m].length==1){
+                S.push(Number(m));
+                seenAtom[Number(m)] = true;
                 break;
               }
             }
-          }
-          while(S.length>0){
-            v = S.pop();
-            //ここに到達行動を追加
-            smiles1.push(v);
-            for(var i in glaph_a[v]){
-              j = glaph_a[v][i];
-              if(seenAtom[j]){
-                continue;
-              }else{
-                seenAtom[j] = true;
-                S.push(j);
-              }
-            }
-          }
-          //smiles作成リスト
-          var smiles2 = []; //枝ごとに分割
-          var smiles3 = []; //探索済み原子リスト
-          var smiles4 = []; //枝の接続情報
-          var smiles5 = []; //探索済み結合格納リスト
-          var smiles6 = []; //原子ごとの記述文字列リスト
-          var smiles7 = []; //原子アドレスによるsmiles
-          var smilesOutList = [] //出力文字列リスト
-          //smiles作成セクション
-          branchList = [smiles1[0]];
-          for (var k in smiles1){
-            var connectFlag = 0;
-            if(k!=0){
-              for(var l in glaph_a[smiles1[k]]){
-                if(smiles1[k-1]==glaph_a[smiles1[k]][l]){
-                  connectFlag = 1;
+            if(S.length==0){
+              for(var n in glaph_a){
+                if(glaph_a[n].length==2){
+                  S.push(Number(n));
+                  seenAtom[Number(n)] = true;
+                  break;
                 }
               }
-              if(connectFlag==1){
-                branchList.push(smiles1[k]);
-                smiles3.push(smiles1[k]);
-                smiles5.push([smiles1[k-1],smiles1[k]]);
-              }else if(connectFlag==0){
-                smiles2.push(branchList);
-                branchList = [smiles1[k]];
-                var connectId = -1;
-                for(o in glaph_a[smiles1[k]]){
-                  for(p in smiles3){
-                    if(glaph_a[smiles1[k]][o]==smiles3[p]){
-                      connectId = smiles3[p];
+            }
+            while(S.length>0){
+              v = S.pop();
+              //ここに到達行動を追加
+              smiles1.push(v);
+              for(var i in glaph_a[v]){
+                j = glaph_a[v][i];
+                if(seenAtom[j]){
+                  continue;
+                }else{
+                  seenAtom[j] = true;
+                  S.push(j);
+                }
+              }
+            }
+            //smiles作成リスト
+            var smiles2 = []; //枝ごとに分割
+            var smiles3 = []; //探索済み原子リスト
+            var smiles4 = []; //枝の接続情報
+            var smiles5 = []; //探索済み結合格納リスト
+            var smiles6 = []; //原子ごとの記述文字列リスト
+            var smiles7 = []; //原子アドレスによるsmiles
+            var smilesOutList = [] //出力文字列リスト
+            //smiles作成セクション
+            branchList = [smiles1[0]];
+            for (var k in smiles1){
+              var connectFlag = 0;
+              if(k!=0){
+                for(var l in glaph_a[smiles1[k]]){
+                  if(smiles1[k-1]==glaph_a[smiles1[k]][l]){
+                    connectFlag = 1;
+                  }
+                }
+                if(connectFlag==1){
+                  branchList.push(smiles1[k]);
+                  smiles3.push(smiles1[k]);
+                  smiles5.push([smiles1[k-1],smiles1[k]]);
+                }else if(connectFlag==0){
+                  smiles2.push(branchList);
+                  branchList = [smiles1[k]];
+                  var connectId = -1;
+                  for(o in glaph_a[smiles1[k]]){
+                    for(p in smiles3){
+                      if(glaph_a[smiles1[k]][o]==smiles3[p]){
+                        connectId = smiles3[p];
+                        break;
+                      }
+                    }
+                    if(connectId!=-1){
                       break;
                     }
                   }
-                  if(connectId!=-1){
-                    break;
-                  }
+                  smiles4.push(connectId);
+                  smiles3.push(smiles1[k]);
+                  smiles5.push([connectId,smiles1[k]]);
                 }
-                smiles4.push(connectId);
-                smiles3.push(smiles1[k]);
-                smiles5.push([connectId,smiles1[k]]);
               }
             }
-          }
-          if(branchList.length!=0){
-            smiles2.push(branchList);
-          }
-          for(q in atoms){
-            smiles6.push(atoms[q][3]);
-          }
-          for(r in smiles2){
-            if(r==0){
-              for(s in smiles2[r]){
-                smiles7.push(smiles2[r][s]);
-              }
-            }else{
-              var posIndex = smiles7.findIndex(item => item == smiles4[r-1]);
-              smiles7.splice(posIndex+1, 0, "(", ")");
-              for(t in smiles2[r]){
-                var tempNom = +t;
-                smiles7.splice(posIndex+2+tempNom, 0, smiles2[r][t]);
-              }
+            if(branchList.length!=0){
+              smiles2.push(branchList);
             }
-          }
-          //二重結合、三重結合の判定
-          var smiles8 = []; //二重結合リスト [[結合id,原子id,原子id],...]
-          var smiles9 = []; //三重結合リスト
-          for(u in bonds){
-            if(bonds[u][5]==2){
-              smiles8.push([bonds[u][0],bonds[u][3],bonds[u][4]]);
-            }else if(bonds[u][5]==3){
-              smiles9.push([bonds[u][0],bonds[u][3],bonds[u][4]]);
+            for(q in atoms){
+              smiles6.push(atoms[q][3]);
             }
-          }
-          for(v in smiles8){
-            var smiles8_pos1 = smiles7.findIndex(item => item == smiles8[v][1]);
-            var smiles8_pos2 = smiles7.findIndex(item => item == smiles8[v][2]);
-            var smiles8_out = -1;
-            if(smiles8_pos1<smiles8_pos2){
-              smiles8_out = smiles8[v][2];
-            }else{
-              smiles8_out = smiles8[v][1];
-            }
-            var smiles8_flag = 0;
-            for(aa in smiles5){
-              if(smiles8[v][1]==smiles5[aa][0] && smiles8[v][2]==smiles5[aa][1]){
-                smiles8_flag = 1;
-                break;
-              }else if(smiles8[v][2]==smiles5[aa][0] && smiles8[v][1]==smiles5[aa][1]){
-                smiles8_flag = 1;
-                break;
+            for(r in smiles2){
+              if(r==0){
+                for(s in smiles2[r]){
+                  smiles7.push(smiles2[r][s]);
+                }
+              }else{
+                var posIndex = smiles7.findIndex(item => item == smiles4[r-1]);
+                smiles7.splice(posIndex+1, 0, "(", ")");
+                for(t in smiles2[r]){
+                  var tempNom = +t;
+                  smiles7.splice(posIndex+2+tempNom, 0, smiles2[r][t]);
+                }
               }
             }
-            if(smiles8_flag==1){
-              smiles6[smiles8_out] = "=" + smiles6[smiles8_out];
-            }else{
-              smiles6[smiles8_out] = smiles6[smiles8_out] + "=";
-            }
-          }
-          for(w in smiles9){
-            var smiles9_pos1 = smiles7.findIndex(item => item == smiles9[w][1]);
-            var smiles9_pos2 = smiles7.findIndex(item => item == smiles9[w][2]);
-            var smiles9_out = -1;
-            if(smiles9_pos1<smiles9_pos2){
-              smiles9_out = smiles9[w][2];
-            }else{
-              smiles9_out = smiles9[w][1];
-            }
-            var smiles9_flag = 0;
-            for(ab in smiles5){
-              if(smiles9[w][1]==smiles5[ab][0] && smiles9[w][2]==smiles5[ab][1]){
-                smiles9_flag = 1;
-                break;
-              }else if(smiles9[w][2]==smiles5[ab][0] && smiles9[w][1]==smiles5[ab][1]){
-                smiles9_flag = 1;
-                break;
+            //二重結合、三重結合の判定
+            var smiles8 = []; //二重結合リスト [[結合id,原子id,原子id],...]
+            var smiles9 = []; //三重結合リスト
+            for(u in bonds){
+              if(bonds[u][5]==2){
+                smiles8.push([bonds[u][0],bonds[u][3],bonds[u][4]]);
+              }else if(bonds[u][5]==3){
+                smiles9.push([bonds[u][0],bonds[u][3],bonds[u][4]]);
               }
             }
-            if(smiles9_flag==1){
-              smiles6[smiles9_out] = "#" + smiles6[smiles9_out];
-            }else{
-              smiles6[smiles9_out] = smiles6[smiles9_out] + "#";
-            }
-          }
-          //環構造の処理
-          var ringNum = 1;
-          for(y in bonds){
-            var ringBondFlag = 0;
-            for(z in smiles5){
-              if(bonds[y][3]==smiles5[z][0] && bonds[y][4]==smiles5[z][1]){
-                ringBondFlag = 1;
+            for(v in smiles8){
+              var smiles8_pos1 = smiles7.findIndex(item => item == smiles8[v][1]);
+              var smiles8_pos2 = smiles7.findIndex(item => item == smiles8[v][2]);
+              var smiles8_out = -1;
+              if(smiles8_pos1<smiles8_pos2){
+                smiles8_out = smiles8[v][2];
+              }else{
+                smiles8_out = smiles8[v][1];
               }
-              if(bonds[y][4]==smiles5[z][0] && bonds[y][3]==smiles5[z][1]){
-                ringBondFlag = 1;
+              var smiles8_flag = 0;
+              for(aa in smiles5){
+                if(smiles8[v][1]==smiles5[aa][0] && smiles8[v][2]==smiles5[aa][1]){
+                  smiles8_flag = 1;
+                  break;
+                }else if(smiles8[v][2]==smiles5[aa][0] && smiles8[v][1]==smiles5[aa][1]){
+                  smiles8_flag = 1;
+                  break;
+                }
+              }
+              if(smiles8_flag==1){
+                smiles6[smiles8_out] = "=" + smiles6[smiles8_out];
+              }else{
+                smiles6[smiles8_out] = smiles6[smiles8_out] + "=";
               }
             }
-            if(ringBondFlag==0){
-              smiles6[bonds[y][3]] = smiles6[bonds[y][3]] + String(ringNum);
-              smiles6[bonds[y][4]] = smiles6[bonds[y][4]] + String(ringNum);
-              ringNum += 1;
+            for(w in smiles9){
+              var smiles9_pos1 = smiles7.findIndex(item => item == smiles9[w][1]);
+              var smiles9_pos2 = smiles7.findIndex(item => item == smiles9[w][2]);
+              var smiles9_out = -1;
+              if(smiles9_pos1<smiles9_pos2){
+                smiles9_out = smiles9[w][2];
+              }else{
+                smiles9_out = smiles9[w][1];
+              }
+              var smiles9_flag = 0;
+              for(ab in smiles5){
+                if(smiles9[w][1]==smiles5[ab][0] && smiles9[w][2]==smiles5[ab][1]){
+                  smiles9_flag = 1;
+                  break;
+                }else if(smiles9[w][2]==smiles5[ab][0] && smiles9[w][1]==smiles5[ab][1]){
+                  smiles9_flag = 1;
+                  break;
+                }
+              }
+              if(smiles9_flag==1){
+                smiles6[smiles9_out] = "#" + smiles6[smiles9_out];
+              }else{
+                smiles6[smiles9_out] = smiles6[smiles9_out] + "#";
+              }
             }
-          }
-          //smilesリスト
-          for(u in smiles7){
-            var smiles7_type = typeof smiles7[u];
-            if(smiles7_type=="number"){
-              smilesOutList.push(smiles6[smiles7[u]]);
-            }else{
-              smilesOutList.push(smiles7[u]);
+            //環構造の処理
+            var ringNum = 1;
+            for(y in bonds){
+              var ringBondFlag = 0;
+              for(z in smiles5){
+                if(bonds[y][3]==smiles5[z][0] && bonds[y][4]==smiles5[z][1]){
+                  ringBondFlag = 1;
+                }
+                if(bonds[y][4]==smiles5[z][0] && bonds[y][3]==smiles5[z][1]){
+                  ringBondFlag = 1;
+                }
+              }
+              if(ringBondFlag==0){
+                smiles6[bonds[y][3]] = smiles6[bonds[y][3]] + String(ringNum);
+                smiles6[bonds[y][4]] = smiles6[bonds[y][4]] + String(ringNum);
+                ringNum += 1;
+              }
             }
+            //smilesリスト
+            for(u in smiles7){
+              var smiles7_type = typeof smiles7[u];
+              if(smiles7_type=="number"){
+                smilesOutList.push(smiles6[smiles7[u]]);
+              }else{
+                smilesOutList.push(smiles7[u]);
+              }
+            }
+            var smilesOut = "" //smiles最終出力
+            for(x in smilesOutList){
+              smilesOut = smilesOut + smilesOutList[x]
+            }
+            console.log(smiles1);
+            console.log(smiles2);
+            console.log(smiles3);
+            console.log(smiles4);
+            console.log(smiles5);
+            console.log(smiles6);
+            console.log(smiles7);
+            console.log(smilesOutList);
+            console.log(smilesOut);
+            SMILES = smilesOut;
+            var outSMILES = document.getElementById("show");
+            outSMILES.innerHTML = smilesOut;
           }
-          var smilesOut = "" //smiles最終出力
-          for(x in smilesOutList){
-            smilesOut = smilesOut + smilesOutList[x]
-          }
-          console.log(smiles1);
-          console.log(smiles2);
-          console.log(smiles3);
-          console.log(smiles4);
-          console.log(smiles5);
-          console.log(smiles6);
-          console.log(smiles7);
-          console.log(smilesOutList);
-          console.log(smilesOut);
-          SMILES = smilesOut;
-          var outSMILES = document.getElementById("showSMILES");
-          outSMILES.innerHTML = smilesOut;
-        }
-      </script>
-      <input type="button" value="設定" onclick="config_open()">
-      <input type="button" value="showList" onclick="showList()">
-      <input type="button" value="showSmiles" onclick="showSmiles()">
-      <script>
-        function sendSMILES(){
-          var RR = document.getElementById("reactionResponse");
-          var RD = document.getElementById("reactionDetail");
-          var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-          fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES+"&additionlFilename="+additionalFilename)
-            .then(response => response.text())
-            .then(text => {
-              RR.innerHTML = text;
-              RD.innerHTML = "反応を選択してください"
-            })
-          }
-      </script>
-      <input type="button" value="submit" onclick="sendSMILES()">
-      <h4 id="show">
-        デフォルト
-      </h4>
-      <h4 id="showSMILES"></h4>
+        </script>
+        <input type="button" value="設定" onclick="config_open()">
+        <input type="button" value="showList" onclick="showList()">
+        <input type="button" value="showSmiles" onclick="showSmiles()">
+        <!--反応要求httpスクリプト-->
+        <script>
+          function sendSMILES(){
+            var RR = document.getElementById("reactionResponse");
+            var RD = document.getElementById("reactionDetail");
+            var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
+            fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES+"&additionlFilename="+additionalFilename)
+              .then(response => response.text())
+              .then(text => {
+                RR.innerHTML = text;
+                RD.innerHTML = "反応を選択してください"
+              })
+            }
+        </script>
+        <input type="button" value="submit" onclick="sendSMILES()">
+        <h4 id="show">
+          デフォルト
+        </h4>
+      </div>
     </div>
     <div id="ReactionContainer" class="MainItem">
       <div id="ReactionListContainer">
@@ -296,6 +362,121 @@
     </div>
   </div>
 
+  <!--右クリックメニュー-->
+  <!--ツリーの矢印右クリックメニュー-->
+  <div id="treeArrowContextmenu" class="contextmenu">
+    <ul>
+      <li onClick="hihi()">削除　　</li>
+    </ul>
+  </div>
+  <script>
+    function treeArrowContextmenu(id){
+      var treeImg = document.getElementById(id);
+      treeImg.oncontextmenu = function(e){
+        document.getElementById('treeArrowContextmenu').style.left=e.pageX+"px";
+        document.getElementById('treeArrowContextmenu').style.top=e.pageY+"px";
+        document.getElementById('treeArrowContextmenu').style.display="block";
+        return false;
+      };
+      document.body.addEventListener('click',function (e){
+        document.getElementById('treeArrowContextmenu').style.display="none";
+      });
+    }
+    function hihi(){
+      document.getElementById('treeArrowContextmenu').style.display="none";
+      alert("hihi");
+    }
+  </script>
+  <!--ツリーの構造式右クリックメニュー-->
+  <div id="treeMoleculeContextmenu" class="contextmenu">
+    <ul>
+      <li onClick="hihi()">逆合成　　</li>
+      <li onClick="hihi()">削除　　</li>
+    </ul>
+  </div>
+  <script>
+    function treeMoleculeContextmenu(id){
+      var treeImg = document.getElementById(id);
+      treeImg.oncontextmenu = function(e){
+        document.getElementById('treeMoleculeContextmenu').style.left=e.pageX+"px";
+        document.getElementById('treeMoleculeContextmenu').style.top=e.pageY+"px";
+        document.getElementById('treeMoleculeContextmenu').style.display="block";
+        return false;
+      };
+      document.body.addEventListener('click',function (e){
+        document.getElementById('treeMoleculeContextmenu').style.display="none";
+      });
+    }
+    function hihi(){
+      alert("hihi");
+    }
+  </script>
+  <!--反応詳細の矢印右クリックメニュー-->
+  <div id="detailArrowContextmenu" class="contextmenu">
+    <ul>
+      <li onClick="hihi()">ツリーに挿入　　</li>
+    </ul>
+  </div>
+  <script>
+    function detailArrowContextmenu(id){
+      document.getElementById('detailArrowContextmenu').style.left=event.pageX+"px";
+      document.getElementById('detailArrowContextmenu').style.top=event.pageY+"px";
+      document.getElementById('detailArrowContextmenu').style.display="block";
+      document.body.addEventListener('click',function (e){
+        document.getElementById('detailArrowContextmenu').style.display="none";
+      });
+      return false;
+    };
+    function hihi(){
+      alert("hihi");
+    }
+  </script>
+  <!--反応詳細の矢印右クリックメニュー-->
+  <div id="detailMoleculeContextmenu" class="contextmenu">
+    <ul>
+      <li onClick="hihi()">ツリーに挿入　　</li>
+    </ul>
+  </div>
+  <script>
+    function detailMoleculeContextmenu(id){
+      document.getElementById('detailMoleculeContextmenu').style.left=event.pageX+"px";
+      document.getElementById('detailMoleculeContextmenu').style.top=event.pageY+"px";
+      document.getElementById('detailMoleculeContextmenu').style.display="block";
+      document.body.addEventListener('click',function (e){
+        document.getElementById('detailMoleculeContextmenu').style.display="none";
+      });
+      return false;
+    };
+    function hihi(){
+      alert("hihi");
+    }
+  </script>
+
+  <!--後で消す-->
+  <img id="testest" src="/static/images/arrow.png" width="100" height="100" alt="arrow" oncontextmenu="return false;">
+  <div id="contextmenu">
+    <ul>
+      <li onClick="hi()">menu1</li>
+      <li onClick="hi()">menu2</li>
+    </ul>
+  </div>
+  <script>
+    var testest = document.getElementById("testest");
+    testest.oncontextmenu = function(e){
+      document.getElementById('contextmenu').style.left=e.pageX+"px";
+      document.getElementById('contextmenu').style.top=e.pageY+"px";
+      document.getElementById('contextmenu').style.display="block";
+      return false;
+    };
+    document.body.addEventListener('click',function (e){
+      document.getElementById('contextmenu').style.display="none";
+    });
+    function hi(){
+      alert("hi");
+    }
+  </script>
+
+
   <!-- 反応の詳細をgetするスクリプト -->
   <script>
     function getReactionDetail(id){
@@ -308,6 +489,7 @@
         })
     }
   </script>
+  <!-- 反応詳細の別パターンを表示するスクリプト -->
   <script>
     //反応詳細の別パターンを表示するスクリプト
     function getReactionPattern(id, num){

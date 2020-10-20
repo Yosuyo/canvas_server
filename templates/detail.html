@@ -1,18 +1,21 @@
 <div>
-    <div>{{ reaction.name }}</div>
+    <div>反応No.{{ reaction.id }}  {{ reaction.name }}</div>
     <div>
-        <img src={{ "/static/images/svgs/" + getsmiles + "_" + reaction.site + ".svg" }} width="100" height="100">
-        <img src="/static/images/arrow.png">
+        <img id="detailBefore" src={{ "/static/images/svgs/" + getsmiles + "_" + reaction.site + ".svg" }} width="100" height="100" alt={{ getsmiles }} oncontextmenu="detailMoleculeContextmenu('detailBefore');return false;">
+        <img id="detailArrow" src="/static/images/arrow.png" oncontextmenu="detailArrowContextmenu('detailArrow');return false;">
         {% for x in prelist[num] %}
-            <img src={{ "/static/images/svgs/" + x + ".svg" }} width="100" height="100">
+            <img id={{ x }} src={{ "/static/images/svgs/" + x + ".svg" }} width="100" height="100" alt={{ x }} oncontextmenu="detailMoleculeContextmenu({{ x }});return false;">
         {% endfor %}
     </div>
-    <div>{{ reaction.smarts }}</div>
-    <div>{{ reaction.condition }}</div>
+    
+    <div>{{ getsmiles }} => {% for x in prelist[num] %} {{x}} {% endfor %}</div>
     <div>
         反応パターン
         {% for n in range( prelist|length ) %} <!--jinja2ではlen(list)の代わりにlist|lengthを使う-->
             <input type="button" value={{ n }} onclick="getReactionPattern({{ getid }}, {{ n }})">
         {% endfor %}
     </div>
+    <div><p></p></div>
+    <div>{{ reaction.condition }}</div>
+
 </div>

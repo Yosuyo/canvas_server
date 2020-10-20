@@ -12,15 +12,55 @@ body{
 .MainItem{
     float: left;;
 }
+#InputContainer{
+    display: block;
+    position: relative;
+    width: 550px;
+    height: 480px;
+}
 #CanvasContainer{
     background-color: #cbf5fa;
     display: block;
     position: relative;
     width: 540px;
-    height: 484px;
+    height: 454px;
     margin: 5px;
     box-shadow: 0 3px 4px rgb(68, 68, 68);
     border-top: solid 6px rgb(59, 199, 255);
+}
+#TreeContainer{
+    z-index: 1;
+    background-color: #a5b4becb;
+    display: block;
+    position: relative;
+    width: 540px;
+    height: 20px;
+    margin: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 4px rgb(68, 68, 68);
+}
+/* 以下ツリー表示ギミック */
+.ly_accordion .el_heading {
+    display: block;
+}
+.ly_accordion .bl_content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s ease-out 0s;
+}
+.ly_accordion .el_checkbox {
+    display: none;
+}
+.ly_accordion .el_checkbox:checked + .bl_content {
+    max-height: 9999px;
+    transition: max-height 1s ease-in;
+}
+/* 以上ツリー表示ギミック */
+#treeBase{
+    display: block;
+    width: 540px;
+    height: 470px;
+    background-color: rgb(184, 226, 212);
 }
 #ReactionContainer{
     display: block;
@@ -67,7 +107,7 @@ td{
     background-color: rgb(255, 255, 255);
 }
 #config{
-    z-index: 2;
+    z-index: 99;
     display: none;
     position: fixed;
     top: 10%;
@@ -80,7 +120,7 @@ td{
     background: #fff;
 }
 #overlay{
-    z-index: 1;
+    z-index: 98;
     display: none;
     position: fixed;
     top: 0;
@@ -89,4 +129,30 @@ td{
     height: 100%;
     background-color: rgba(51,51,51,0.6);
     margin-top: 0px;
+}
+/* 右クリックメニュー */
+#contextmenu{
+    display:none;
+    position:fixed;
+    left:0px;
+    top:0px;
+    width:200px;
+    height:100px;
+    border:1px solid #000;
+    background-color:#fff;
+}
+#contextmenu li{
+    cursor:pointer;
+}
+.contextmenu{
+    z-index: 2;
+    display:none;
+    position:fixed;
+    left:0px;
+    top:0px;
+    border:1px solid #000;
+    background-color:#fff;
+}
+.contextmenu li{
+    cursor:pointer;
 }

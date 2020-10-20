@@ -18,8 +18,9 @@ def returnSmiles():
     getfilename = request.args.get("additionlFilename","")
 
     import search
-    results = search.searchReaction(out)
+    results = ""
     try:
+        results = search.searchReaction(out)
         results = results + search.searchAdditionalReaction(out,getfilename)
     except:
         print("pass")
@@ -43,6 +44,7 @@ def reactionDetail():
     #入力構造式のsvgを作成
     import structure
     print(reaction)
+    structure.createImage(getsmiles)
     structure.createImageHighlight(getsmiles, reaction[0]["site"])
     #smartsによる変換の実行
     from rdkit import Chem
@@ -120,6 +122,11 @@ def upload_additionalData():
         pass
 
     return render_template("main.html", filename=filename)
+
+#ツリーの構造式画像送信
+@app.route('/main/tree')
+def tree_pic():
+    return render_template("img.html")
 
 if __name__ == "__main__":
     app.run()
