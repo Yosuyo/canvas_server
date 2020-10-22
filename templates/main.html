@@ -24,17 +24,16 @@
                   <input type="text" id="treeTextSMILES" placeholder="ここにSMILESを入力">
                   <input type="button" value="分子挿入" onclick="treeTextSMILES()">
                   <input type="button" value="矢印挿入" onclick="insertArrow()">
-                  <input type="button" value="改行">
-                  <input type="button" value="削除" onclick="test_remove()">
+                  <input type="button" value="空白挿入" onclick="insertSpace()">
+                  <input type="button" value="改行" onclick="tree_br()">
+                  <input type="button" value="削除" onclick="tree_remove()">
                 </div>
               </div>
               <!--反応ツリー制御スクリプト-->
               <script>
                 var arrow_id = 0;
                 var molecule_id = 0;
-                function test(){
-                  alert("test");
-                }
+                var space_id = 0;
                 function insertArrow(){
                   var div = document.getElementById("tree_main");
                   var img = document.createElement("img");
@@ -45,7 +44,22 @@
                   treeArrowContextmenu("arrow"+String(arrow_id));
                   arrow_id += 1;
                 }
-                function test_remove(){
+                function insertSpace(){
+                  var div = document.getElementById("tree_main");
+                  var img = document.createElement("img");
+                  img.setAttribute("src","/static/images/space.png");
+                  img.setAttribute("oncontextmenu","return false;");
+                  img.setAttribute("id","space"+String(arrow_id));
+                  div.appendChild(img);
+                  treeSpaceContextmenu("space"+String(arrow_id));
+                  space_id += 1;
+                }
+                function tree_br(){
+                  var div = document.getElementById("tree_main");
+                  var br = document.createElement("br");
+                  div.appendChild(br);
+                }
+                function tree_remove(){
                   var div = document.getElementById("tree_main");
                   if(div.hasChildNodes){
                     div.removeChild(div.lastChild);
@@ -67,6 +81,9 @@
                   div.appendChild(img);
                   treeMoleculeContextmenu("molecule"+String(molecule_id));
                   molecule_id += 1;
+                }
+                function id_remove(id){
+                  document.getElementById(id).remove();
                 }
               </script>
             </div>
@@ -363,10 +380,13 @@
   </div>
 
   <!--右クリックメニュー-->
+  <script>
+    var idPointer = ""; //右クリックした要素のidを格納
+  </script>
   <!--ツリーの矢印右クリックメニュー-->
   <div id="treeArrowContextmenu" class="contextmenu">
     <ul>
-      <li onClick="hihi()">削除　　</li>
+      <li onClick="id_remove(idPointer)">削除　　</li>
     </ul>
   </div>
   <script>
@@ -376,22 +396,40 @@
         document.getElementById('treeArrowContextmenu').style.left=e.pageX+"px";
         document.getElementById('treeArrowContextmenu').style.top=e.pageY+"px";
         document.getElementById('treeArrowContextmenu').style.display="block";
+        idPointer = id;
         return false;
       };
       document.body.addEventListener('click',function (e){
         document.getElementById('treeArrowContextmenu').style.display="none";
       });
     }
-    function hihi(){
-      document.getElementById('treeArrowContextmenu').style.display="none";
-      alert("hihi");
+  </script>
+  <!--ツリーの空白右クリックメニュー-->
+  <div id="treeSpaceContextmenu" class="contextmenu">
+    <ul>
+      <li onClick="id_remove(idPointer)">削除　　</li>
+    </ul>
+  </div>
+  <script>
+    function treeSpaceContextmenu(id){
+      var treeImg = document.getElementById(id);
+      treeImg.oncontextmenu = function(e){
+        document.getElementById('treeSpaceContextmenu').style.left=e.pageX+"px";
+        document.getElementById('treeSpaceContextmenu').style.top=e.pageY+"px";
+        document.getElementById('treeSpaceContextmenu').style.display="block";
+        idPointer = id;
+        return false;
+      };
+      document.body.addEventListener('click',function (e){
+        document.getElementById('treeSpaceContextmenu').style.display="none";
+      });
     }
   </script>
   <!--ツリーの構造式右クリックメニュー-->
   <div id="treeMoleculeContextmenu" class="contextmenu">
     <ul>
-      <li onClick="hihi()">逆合成　　</li>
-      <li onClick="hihi()">削除　　</li>
+      <li onClick="treeToReaction(idPointer)">逆合成反応を表示　　</li>
+      <li onClick="id_remove(idPointer)">削除　　</li>
     </ul>
   </div>
   <script>
@@ -401,20 +439,24 @@
         document.getElementById('treeMoleculeContextmenu').style.left=e.pageX+"px";
         document.getElementById('treeMoleculeContextmenu').style.top=e.pageY+"px";
         document.getElementById('treeMoleculeContextmenu').style.display="block";
+        idPointer = id;
         return false;
       };
       document.body.addEventListener('click',function (e){
         document.getElementById('treeMoleculeContextmenu').style.display="none";
       });
     }
-    function hihi(){
-      alert("hihi");
+    function treeToReaction(id){
+      var targetImg = document.getElementById(id);
+      var targetAlt = targetImg.alt;
+      SMILES = targetAlt;
+      sendSMILES();
     }
   </script>
   <!--反応詳細の矢印右クリックメニュー-->
   <div id="detailArrowContextmenu" class="contextmenu">
     <ul>
-      <li onClick="hihi()">ツリーに挿入　　</li>
+      <li onClick="insertArrow()">ツリーに挿入　　</li>
     </ul>
   </div>
   <script>
@@ -427,17 +469,15 @@
       });
       return false;
     };
-    function hihi(){
-      alert("hihi");
-    }
   </script>
-  <!--反応詳細の矢印右クリックメニュー-->
+  <!--反応詳細の構造式右クリックメニュー-->
   <div id="detailMoleculeContextmenu" class="contextmenu">
     <ul>
-      <li onClick="hihi()">ツリーに挿入　　</li>
+      <li onClick="detailToTree(detailIdPointer)">ツリーに挿入　　</li>
     </ul>
   </div>
   <script>
+    var detailIdPointer = "";
     function detailMoleculeContextmenu(id){
       document.getElementById('detailMoleculeContextmenu').style.left=event.pageX+"px";
       document.getElementById('detailMoleculeContextmenu').style.top=event.pageY+"px";
@@ -445,34 +485,14 @@
       document.body.addEventListener('click',function (e){
         document.getElementById('detailMoleculeContextmenu').style.display="none";
       });
+      detailIdPointer = id;
       return false;
-    };
-    function hihi(){
-      alert("hihi");
     }
-  </script>
-
-  <!--後で消す-->
-  <img id="testest" src="/static/images/arrow.png" width="100" height="100" alt="arrow" oncontextmenu="return false;">
-  <div id="contextmenu">
-    <ul>
-      <li onClick="hi()">menu1</li>
-      <li onClick="hi()">menu2</li>
-    </ul>
-  </div>
-  <script>
-    var testest = document.getElementById("testest");
-    testest.oncontextmenu = function(e){
-      document.getElementById('contextmenu').style.left=e.pageX+"px";
-      document.getElementById('contextmenu').style.top=e.pageY+"px";
-      document.getElementById('contextmenu').style.display="block";
-      return false;
-    };
-    document.body.addEventListener('click',function (e){
-      document.getElementById('contextmenu').style.display="none";
-    });
-    function hi(){
-      alert("hi");
+    function detailToTree(id){
+      var targetImg = document.getElementById(id);
+      var targetAlt = targetImg.alt;
+      console.log(targetAlt);
+      treeSMILES(targetAlt);
     }
   </script>
 
