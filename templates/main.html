@@ -16,7 +16,6 @@
         <div class="bl_content">
           <div class="bl_inner">
             <div id="treeBase">
-              ここに反応ツリーを表示
               <div id="tree_wrapper">
                 <div id="tree_main">
                 </div>
@@ -24,7 +23,6 @@
                   <input type="text" id="treeTextSMILES" placeholder="ここにSMILESを入力">
                   <input type="button" value="分子挿入" onclick="treeTextSMILES()">
                   <input type="button" value="矢印挿入" onclick="insertArrow()">
-                  <input type="button" value="空白挿入" onclick="insertSpace()">
                   <input type="button" value="改行" onclick="tree_br()">
                   <input type="button" value="削除" onclick="tree_remove()">
                 </div>
@@ -44,6 +42,7 @@
                   treeArrowContextmenu("arrow"+String(arrow_id));
                   arrow_id += 1;
                 }
+                //空白挿入機能（実装せず）
                 function insertSpace(){
                   var div = document.getElementById("tree_main");
                   var img = document.createElement("img");
@@ -102,7 +101,7 @@
         <script>
           //グローバル関数(出力smiles)
           var SMILES = ""
-          //原子結合リスト表示
+          //原子結合リスト表示(デバッグ用)
           function showList() {
             console.log(atoms);
             console.log(bonds);
@@ -343,11 +342,11 @@
           }
         </script>
         <input type="button" value="設定" onclick="config_open()">
-        <input type="button" value="showList" onclick="showList()">
-        <input type="button" value="showSmiles" onclick="showSmiles()">
+        <input type="button" value="逆合成を開始" onclick="sendSMILES()">
         <!--反応要求httpスクリプト-->
         <script>
           function sendSMILES(){
+            showSmiles();
             var RR = document.getElementById("reactionResponse");
             var RD = document.getElementById("reactionDetail");
             var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
@@ -359,7 +358,6 @@
               })
             }
         </script>
-        <input type="button" value="submit" onclick="sendSMILES()">
         <h4 id="show">
           デフォルト
         </h4>
@@ -525,6 +523,7 @@
   <!--設定のモーダルウィンドウ-->
   <div id="config">
     <p>設定</p>
+    <div>・反応データをアップロード</div>
     <form method="post" action="http://127.0.0.1:5000/main/upload" enctype="multipart/form-data">
       <input type="file" name="file">
       <button>upload</button>

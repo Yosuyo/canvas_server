@@ -87,10 +87,11 @@ c4.onmousedown = function (down) {
         }
     } else {
         //キャンバス外
-        if (0 <= downX && downX <= 50 && 50 <= downY && downY <= 100) {
+        //左列ボタンイベント
+        if (0 <= downX && downX <= 50 && 0 <= downY && downY <= 50) {
             status = 0;
             display.innerHTML = "デフォルト";
-        } else if (0 <= downX && downX <= 50 && 110 <= downY && downY <= 160) {
+        } else if (0 <= downX && downX <= 50 && 60 <= downY && downY <= 110) {
             if(status==2){
                 clear(eff2);
                 status = 0;
@@ -99,11 +100,11 @@ c4.onmousedown = function (down) {
             }
             status = 2;
             showAtomList();
-            display.innerHTML ="原子";
-        } else if (0 <= downX && downX <= 50 && 170 <= downY && downY <= 220) {
+            display.innerHTML ="原子選択";
+        } else if (0 <= downX && downX <= 50 && 120 <= downY && downY <= 170) {
             status = 1;
             display.innerHTML ="削除";
-        } else if (0 <= downX && downX <= 50 && 230 <= downY && downY <= 280) {
+        } else if (0 <= downX && downX <= 50 && 180 <= downY && downY <= 230) {
             downFlag = 0;
             downId = 999;
             moveFlag = 0;
@@ -270,26 +271,27 @@ function background() {
     base.fillStyle = "rgb(255,255,255)";
     base.fillRect(60, 0, 500, 400);
 }
+//ボタン描画
 function setButton() {
     var img1 = new Image(50,50);
     img1.src = "../static/images/bond_icon.png";
     img1.onload = function(){
-        base.drawImage(img1,0,50);
+        base.drawImage(img1,0,0);
     };
     var img2 = new Image(50,50);
     img2.src = "../static/images/hetero_icon.png";
     img2.onload = function(){
-        base.drawImage(img2,0,110);
+        base.drawImage(img2,0,60);
     };
     var img3 = new Image(50,50);
     img3.src = "../static/images/eraser_icon.png";
     img3.onload = function(){
-        base.drawImage(img3,0,170);
+        base.drawImage(img3,0,120);
     };
     var img4 = new Image(50,50);
     img4.src = "../static/images/delete_icon.png";
     img4.onload = function(){
-        base.drawImage(img4,0,230);
+        base.drawImage(img4,0,180);
     };
 }
 function newAtom(x, y, symbol) {
@@ -603,31 +605,31 @@ function redraw() {
 //原子の表は以下を改変する
 function showAtomList(){
     eff2.fillStyle="rgb(100,100,100)";
-    eff2.fillRect(100,100,390,270);
+    eff2.fillRect(85,40,390,270);
     eff2.strokeStyle="rgb(0,0,0)";
     eff2.lineWidth=2;
     eff2.beginPath();
-    eff2.moveTo(100,100);
-    eff2.lineTo(490,100);
-    eff2.lineTo(490,370);
-    eff2.lineTo(100,370);
-    eff2.lineTo(100,100);
+    eff2.moveTo(85,40);
+    eff2.lineTo(475,40);
+    eff2.lineTo(475,310);
+    eff2.lineTo(85,310);
+    eff2.lineTo(85,40);
     eff2.stroke();
     eff2.fillStyle="rgb(255,255,255)";
     var x,y,i,j;
     for(j=0;j<4;j++){
-        y = j*60+120;
+        y = j*60+60;
         for(i = 0;i<6;i++){
-            x = i*60+120;
+            x = i*60+105;
             eff2.fillRect(x,y,50,50);
         }
     }
     eff2.font="40px 'sunselif'";
     eff2.fillStyle="rgb(0,0,0)";
     //以下拡張予定
-    y=120+41;
+    y=60+41;
     for(i=0,l=symbolList1.length;i<l;i++){
-        x=i*60+131;
+        x=i*60+116;
         eff2.fillText(symbolList1[i],x,y);
     }
     //以上拡張予定
@@ -636,7 +638,7 @@ function inAtomList(x,y){
     var symbol;
     //以下拡張予定
     for(i=0,l=symbolList1.length;i<l;i++){
-        if(120+60*i<=x&&x<=170+60*i&&120<=y&&y<=170){
+        if(105+60*i<=x&&x<=155+60*i&&60<=y&&y<=110){
             symbol = symbolList1[i];
         }
     }

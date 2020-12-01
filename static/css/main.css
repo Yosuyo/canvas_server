@@ -39,6 +39,17 @@ body{
     margin-bottom: 10px;
     box-shadow: 0 3px 4px rgb(68, 68, 68);
 }
+#tree_wrapper{
+    position: relative;
+    height: 450px;
+}
+#tree_button{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+}
 /* 以下ツリー表示ギミック */
 .ly_accordion .el_heading {
     display: block;
@@ -130,7 +141,7 @@ td{
     background-color: rgba(51,51,51,0.6);
     margin-top: 0px;
 }
-/* 右クリックメニュー */
+/* 以下右クリックメニュー */
 #contextmenu{
     display:none;
     position:fixed;
@@ -156,3 +167,4 @@ td{
 .contextmenu li{
     cursor:pointer;
 }
+/* 以上右クリックメニュー */

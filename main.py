@@ -23,7 +23,8 @@ def returnSmiles():
         results = search.searchReaction(out)
         results = results + search.searchAdditionalReaction(out,getfilename)
     except:
-        print("pass")
+        import traceback
+        traceback.print_exc()
         pass
 
     return render_template("list.html", results=results)
