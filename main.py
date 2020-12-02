@@ -67,8 +67,10 @@ def reactionDetail():
     for x in prelist:
         for y in x:
             structure.createImage(y)
+    #反応部位の*を^に置換してHTMLへ渡す
+    rSmarts = reaction[0]["site"].translate(str.maketrans({"*":"^"}))
 
-    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=0)
+    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=0, rSmarts=rSmarts)
 #反応の別パターンを選択したとき
 @app.route("/main/detail_celect")
 def reactionDetailCelect():
@@ -99,8 +101,10 @@ def reactionDetailCelect():
         seen = []
         return [x for x in seq if x not in seen and not seen.append(x)]
     prelist = get_unique_list(prelist)
+    #反応部位の*を^に置換してHTMLへ渡す
+    rSmarts = reaction[0]["site"].translate(str.maketrans({"*":"^"}))
 
-    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=int(getnum))
+    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=int(getnum), rSmarts=rSmarts)
 #設定から反応ファイルをアップロードしたとき
 @app.route("/main/upload", methods=["POST"])
 def upload_additionalData():

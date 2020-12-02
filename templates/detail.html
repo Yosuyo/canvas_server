@@ -1,7 +1,7 @@
 <div>
-    <div>反応No.{{ reaction.id }}  {{ reaction.name }}</div>
+    <div>{{ reaction.name }}</div>
     <div>
-        <img id="detailBefore" src={{ "/static/images/svgs/" + getsmiles + "_" + reaction.site + ".svg" }} width="100" height="100" alt={{ getsmiles }} oncontextmenu="detailMoleculeContextmenu('detailBefore');return false;">
+        <img id="detailBefore" src={{ "/static/images/svgs/" + getsmiles + "_" + rSmarts + ".svg" }} width="100" height="100" alt={{ getsmiles }} oncontextmenu="detailMoleculeContextmenu('detailBefore');return false;">
         <img id="detailArrow" src="/static/images/arrow.png" oncontextmenu="detailArrowContextmenu('detailArrow');return false;">
         {% for x in prelist[num] %}
             <img id={{ x }} src={{ "/static/images/svgs/" + x + ".svg" }} width="100" height="100" alt={{ x }} oncontextmenu="detailMoleculeContextmenu('{{ x }}');return false;">
