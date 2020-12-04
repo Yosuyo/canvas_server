@@ -21,7 +21,10 @@ def returnSmiles():
     results = ""
     try:
         results = search.searchReaction(out)
-        results = results + search.searchAdditionalReaction(out,getfilename)
+        if getfilename != "":
+            results = results + search.searchAdditionalReaction(out,getfilename)
+        else:
+            pass
     except:
         import traceback
         traceback.print_exc()
@@ -64,13 +67,19 @@ def reactionDetail():
         seen = []
         return [x for x in seq if x not in seen and not seen.append(x)]
     prelist = get_unique_list(prelist)
-    for x in prelist:
-        for y in x:
-            structure.createImage(y)
+    #構造式を出力する。出来ない場合はありえない構造としてエラー表示を返し、前駆体リストを消去する
+    error = ""
+    try:
+        for x in prelist:
+            for y in x:
+                structure.createImage(y)
+    except:
+        error = "※ERROR:適用できない反応です"
+        prelist = []
     #反応部位の*を^に置換してHTMLへ渡す
     rSmarts = reaction[0]["site"].translate(str.maketrans({"*":"^"}))
 
-    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=0, rSmarts=rSmarts)
+    return render_template("detail.html", getid=getid, prelist=prelist, getsmiles=getsmiles, reaction=reaction[0], num=0, rSmarts=rSmarts, err=error)
 #反応の別パターンを選択したとき
 @app.route("/main/detail_celect")
 def reactionDetailCelect():

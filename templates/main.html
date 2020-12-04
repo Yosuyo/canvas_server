@@ -342,11 +342,14 @@
           }
         </script>
         <input type="button" value="設定" onclick="config_open()">
-        <input type="button" value="逆合成を開始" onclick="sendSMILES()">
+        <input type="button" value="逆合成を開始" onclick="getReaction()">
         <!--反応要求httpスクリプト-->
         <script>
-          function sendSMILES(){
+          function getReaction(){
             showSmiles();
+            sendSMILES();
+          }
+          function sendSMILES(){
             var RR = document.getElementById("reactionResponse");
             var RD = document.getElementById("reactionDetail");
             var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
@@ -448,6 +451,7 @@
       var targetImg = document.getElementById(id);
       var targetAlt = targetImg.alt;
       SMILES = targetAlt;
+      
       sendSMILES();
     }
   </script>
