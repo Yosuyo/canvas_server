@@ -353,7 +353,7 @@
             var RR = document.getElementById("reactionResponse");
             var RD = document.getElementById("reactionDetail");
             var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-            fetch("http://127.0.0.1:5000/main/smiles?smiles="+rSMILES+"&additionlFilename="+additionalFilename)
+            fetch("http://160.251.21.68/main/smiles?smiles="+rSMILES+"&additionlFilename="+additionalFilename)
               .then(response => response.text())
               .then(text => {
                 RR.innerHTML = text;
@@ -504,7 +504,7 @@
     function getReactionDetail(id){
       var RD = document.getElementById("reactionDetail");
       var rSMILES = SMILES.replace(/#/g,"~") //#を~に変更する(pythonでコメントとして扱われるため)
-      fetch("http://127.0.0.1:5000/main/detail?id="+String(id)+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
+      fetch("http://160.251.21.68/main/detail?id="+String(id)+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
@@ -517,7 +517,7 @@
     function getReactionPattern(id, num){
       var RD = document.getElementById("reactionDetail");
       var rSMILES = SMILES.replace(/#/g,"~")
-      fetch("http://127.0.0.1:5000/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
+      fetch("http://160.251.21.68/main/detail_celect?id="+String(id)+"&num="+num+"&smiles="+rSMILES+"&additionlFilename="+additionalFilename)
         .then(response => response.text())
         .then(text => {
           RD.innerHTML = text;
@@ -528,7 +528,7 @@
   <div id="config">
     <p>設定</p>
     <div>・反応データをアップロード</div>
-    <form method="post" action="http://127.0.0.1:5000/main/upload" enctype="multipart/form-data">
+    <form method="post" action="http://160.251.21.68/main/upload" enctype="multipart/form-data">
       <input type="file" name="file">
       <button>upload</button>
       <div id="filename">{{ filename }}</div>
