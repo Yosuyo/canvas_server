@@ -34,9 +34,11 @@ def returnSmiles():
 #反応を選択したとき
 @app.route("/main/detail")
 def reactionDetail():
+    import re
     getid = request.args.get("id","")
     getsmiles = request.args.get("smiles","")
     getsmiles = getsmiles.translate(str.maketrans({"~":r"#"}))
+    getsmiles = re.sub("H","",getsmiles)
     getfilename = request.args.get("additionlFilename","")
 
     if int(getid) < 10000:
@@ -83,10 +85,12 @@ def reactionDetail():
 #反応の別パターンを選択したとき
 @app.route("/main/detail_celect")
 def reactionDetailCelect():
+    import re
     getid = request.args.get("id","")
     getnum = request.args.get("num","")
     getsmiles = request.args.get("smiles","")
     getsmiles = getsmiles.translate(str.maketrans({"~":r"#"}))
+    getsmiles = re.sub("H","",getsmiles)
     getfilename = request.args.get("additionlFilename","")
     if int(getid) < 10000:
         import sql
