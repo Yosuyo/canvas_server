@@ -3,7 +3,7 @@
         {% for result in results %}
             <tr>
                 <td>{{ result.name }}</td>
-                <td><input type="button" value="submit" onclick="getReactionDetail( {{ result.id }} )"></td> <!-- x|string()はjinja2の型変換フィルタ -->
+                <td><input type="button" value="submit" onclick="getReactionDetail( {{ result.id }} )"></td>
             </tr>
         {% endfor %}
     </table>

@@ -48,3 +48,6 @@ def getAdditionalReaction(id, filename):
                 reaction.append(dic)
                 break
     return reaction
+
+    #反応データベースのデータ構造
+    #'id': 番号(int), 'name': 反応名(varchar), 'site': 生成部位SMARTS(varchar), 'smarts': 逆合成変換reactionSMARTS(varchar), 'condition': 反応詳細(varchar)}

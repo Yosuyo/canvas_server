@@ -11,7 +11,7 @@
   <div class="MainContainer">
     <div id="InputContainer" class="MainItem">
       <div id="TreeContainer" class="ly_accordion">
-        <label for="rta01" class="el_heading">ツリーを表示</label>
+        <label for="rta01" class="el_heading">反応クリップボードを表示</label>
         <input id="rta01" class="el_checkbox" type="checkbox">
         <div class="bl_content">
           <div class="bl_inner">
@@ -27,7 +27,7 @@
                   <input type="button" value="削除" onclick="tree_remove()">
                 </div>
               </div>
-              <!--反応ツリー制御スクリプト-->
+              <!--クリップボード制御スクリプト-->
               <script>
                 var arrow_id = 0;
                 var molecule_id = 0;
@@ -92,10 +92,10 @@
       <div id="CanvasContainer">
         <p></p>
         <div id="canvas_wrapper" onContextmenu="return false;">
-          <canvas id="canvas1" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-          <canvas id="canvas2" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-          <canvas id="canvas3" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
-          <canvas id="canvas4" class="main" width="500" height="350" style="touch-action: none; cursor: inherit;"></canvas>
+          <canvas id="canvas1" class="main" width="500" height="350"></canvas>
+          <canvas id="canvas2" class="main" width="500" height="350"></canvas>
+          <canvas id="canvas3" class="main" width="500" height="350"></canvas>
+          <canvas id="canvas4" class="main" width="500" height="350"></canvas>
         </div>
         <!--翻訳スクリプト-->
         <script>
@@ -103,7 +103,9 @@
           var SMILES = ""
           //原子結合リスト表示(デバッグ用)
           function showList() {
+            console.log("atoms=")
             console.log(atoms);
+            console.log("bonds=")
             console.log(bonds);
           }
           // グラフ構造を作成する
@@ -182,7 +184,7 @@
             var smiles7 = []; //原子アドレスによるsmiles
             var smilesOutList = [] //出力文字列リスト
             //smiles作成セクション
-            branchList = [smiles1[0]];
+            var branchList = [smiles1[0]];
             for (var k in smiles1){
               var connectFlag = 0;
               if(k!=0){
@@ -343,6 +345,7 @@
         </script>
         <input type="button" value="設定" onclick="config_open()">
         <input type="button" value="逆合成を開始" onclick="getReaction()">
+        <input type="button" value="test" onclick="showList()">
         <!--反応要求httpスクリプト-->
         <script>
           function getReaction(){
