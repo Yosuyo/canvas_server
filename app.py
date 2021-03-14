@@ -146,5 +146,88 @@ def upload_additionalData():
 def tree_pic():
     return render_template("img.html")
 
+#反応データベースの編集
+@app.route('/main/reactiondb_menu')
+def reactiondb():
+    return render_template("reactiondb.html")
+
+#反応データベースのリストを表示
+@app.route('/main/reactiondb_all')
+def reactiondb_all():
+    import sql
+    result = sql.sqlSELECT("SELECT * from reaction")
+    return render_template("reactiondb_all.html", result=result)
+
+#反応データの追加
+@app.route('/main/reactiondb_add', methods=["POST"])
+def reactiondb_add():
+    from flask import request
+    import sql
+    name = str(request.form["name"])
+    site = str(request.form["site"])
+    smarts = str(request.form["smarts"])
+    condition = str(request.form["condition"])
+    id_list = sql.sqlSELECT("SELECT id from reaction")
+    newid = str(id_list[-1]["id"] +1)
+    try:
+        sql.sqlUPDATE("INSERT INTO reaction VALUES ("+newid+",'"+name+"','"+site+"','"+smarts+"','"+condition+"')")
+        result = "データの追加に成功しました。反応データ一覧からご確認ください。　反応id："+newid
+    except Exception as e:
+        result = e.args
+
+    return render_template("reactiondb_result.html",result=result)
+
+#反応データの修正
+@app.route('/main/reactiondb_change', methods=["POST"])
+def reactiondb_change():
+    from flask import request
+    import sql
+    id = str(request.form["id"])
+    name = str(request.form["name"])
+    site = str(request.form["site"])
+    smarts = str(request.form["smarts"])
+    condition = str(request.form["condition"])
+    command = ""
+    if id == "":
+        result = "エラー：idを入力してください"
+        return render_template("reactiondb_result.html",result=result)
+    if name != "":
+        command = command + " name='" + name + "'"
+    if site != "":
+        command = command + " site='" + site + "'"
+    if smarts != "":
+        smarts = command + " smarts='" + smarts + "'"
+    if condition != "":
+        condition = command + " condition='" + condition + "'"
+    try:
+        sql.sqlUPDATE("UPDATE reaction SET"+command+" WHERE id="+id)
+        result = "データの修正に成功しました。反応データ一覧からご確認ください。　反応id："+id
+    except Exception as e:
+        result = e.args
+
+    return render_template("reactiondb_result.html",result=result)
+
+#反応データの削除
+@app.route('/main/reactiondb_delete', methods=["POST"])
+def reactiondb_delete():
+    from flask import request
+    import sql
+    import datetime
+    id = str(request.form["id"])
+    try:
+        data = sql.sqlSELECT("SELECT * FROM reaction")
+        dt_now = datetime.datetime.now()
+        time = dt_now.strftime('%Y-%m-%d-%H-%M-%S')
+        with open("static/data/"+time+".txt", "w") as f:
+            for row in data:
+                frow = "id:"+str(row["id"])+" name:"+row["name"]+" site:"+row["site"]+" smarts:"+row["smarts"]+" condition:"+row["condition"]+"\n"
+                f.write(frow)
+        sql.sqlUPDATE("DELETE FROM reaction WHERE id="+id)
+        result = "データの削除に成功しました。反応データ一覧からご確認ください。　削除済み反応id："+id
+    except Exception as e:
+        result = e.args
+
+    return render_template("reactiondb_result.html",result=result)
+
 if __name__ == "__main__":
     app.run()

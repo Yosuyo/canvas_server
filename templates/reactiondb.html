@@ -1,0 +1,166 @@
+<style>
+    form {
+    margin: 0 auto;
+    width: 800px;
+    padding: 1em;
+    border-radius: 1em;
+    }
+    ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    form li + li {
+    margin-top: 1em;
+    }
+    label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    }
+    input, textarea {
+    font: 1em sans-serif;
+    width: 600px;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    }
+    input:focus,
+    textarea:focus {
+    border-color: #000;
+    }
+    textarea {
+    vertical-align: top;
+    height: 10em;
+    }
+    .button {
+    padding-left: 90px;
+    }
+    button {
+    margin-left: .5em;
+    }
+    .title {
+    text-align: center;
+    }
+    /* 以下ツリー表示ギミック */
+    .acd-check{
+    display: none;
+    }
+    .acd-label{
+    text-align: center;
+    background: #333;
+    color: #fff;
+    display: block;
+    margin-bottom: 1px;
+    padding: 10px;
+    margin: auto;
+    }
+    .acd-content{
+    border: 1px solid #333;
+    height: 0;
+    opacity: 0;
+    padding: 0 10px;
+    transition: .5s;
+    visibility: hidden;
+    }
+    .acd-check:checked + .acd-label + .acd-content{
+    height: 450px;
+    opacity: 1;
+    padding: 10px;
+    visibility: visible;
+    }
+    /* 以上ツリー表示ギミック */
+</style>
+
+
+<h1 class="title">反応データベースの編集</h1>
+<div class="title">反応データ一覧を表示 : <a href="reactiondb_all" target="_blank" rel="noopener noreferrer">新規タブで開く</a></div>
+</br>
+
+<input id="acd-check1" class="acd-check" type="checkbox">
+<label class="acd-label" for="acd-check1">反応を追加する</label>
+<div class="acd-content">
+    <form id="add" action="/main/reactiondb_add" method="post">
+        <div class="title">
+            反応を追加する
+        </div>
+        </br>
+        <ul>
+            <li>
+                <label for="name">反応名:</label>
+                <input type="text" name="name">
+            </li>
+            <li>
+                <label for="site">生成部位SMARTS:</label>
+                <input type="text" name="site">
+            </li>
+            <li>
+                <label for="smarts">reactionSMARTS:</label>
+                <input type="text" name="smarts">
+            </li>
+            <li>
+                <label for="condition">反応詳細:</label>
+                <textarea name="condition"></textarea>
+            </li>
+            <li class="button">
+                <button type="submit">改変をデータベースへ送信</button>
+            </li>
+        </ul>
+    </form>
+</div>
+<input id="acd-check2" class="acd-check" type="checkbox">
+<label class="acd-label" for="acd-check2">反応を修正する</label>
+<div class="acd-content">
+    <form id="change" action="/main/reactiondb_change" method="post">
+        <div class="title">
+            反応を修正する　※修正箇所のみを入力して送信
+        </div>
+        </br>
+        <ul>
+            <li>
+                <label for="id">※必須　反応id:</label>
+                <input type="text" name="id">
+            </li>
+            <li>
+                <label for="name">反応名:</label>
+                <input type="text" name="name">
+            </li>
+            <li>
+                <label for="site">生成部位SMARTS:</label>
+                <input type="text" name="site">
+            </li>
+            <li>
+                <label for="smarts">reactionSMARTS:</label>
+                <input type="text" name="smarts">
+            </li>
+            <li>
+                <label for="condition">反応詳細:</label>
+                <textarea name="condition"></textarea>
+            </li>
+            <li class="button">
+                <button type="submit">改変をデータベースへ送信</button>
+            </li>
+        </ul>
+    </form>
+</div>
+<input id="acd-check3" class="acd-check" type="checkbox">
+<label class="acd-label" for="acd-check3">反応を削除する</label>
+<div class="acd-content">
+    <form id="delete" action="/main/reactiondb_delete" method="post">
+        <div class="title">
+            反応を削除する
+        </div>
+        </br>
+        <ul>
+            <li>
+                <label for="name">反応id:</label>
+                <input type="text" name="id">
+            </li>
+            <li class="button">
+                <button type="submit">改変をデータベースへ送信</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+
+

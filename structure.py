@@ -51,5 +51,6 @@ def createImageHighlight(smiles, smarts):
     svg = drawer.GetDrawingText().replace('svg:', '')
     # "*"記号はファイル名として使えないため、"^"に置換する
     rSmarts = smarts.translate(str.maketrans({"*":"^"}))
+    
     with open("static/images/svgs/"+smiles+"_"+rSmarts+".svg", "w") as f:
         f.write(svg)

@@ -1,0 +1,11 @@
+<h1>反応データベース_データ一覧</h1>
+<div><a href="reactiondb_all">更新</a></div>
+<div>
+    {% for x in result %}
+        <div>-----------------------------------------------</div>
+        <div>id : {{ x.id }}</div>
+        <div>name : {{ x.name }}</div>
+        <div>site : {{ x.site }}</div>
+        <div>condition : {{ x.condition }}</div>
+    {% endfor %}
+</div>
