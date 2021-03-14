@@ -37,4 +37,3 @@ id:36 name:フェノールのアセチル化 site:cOC(=O)C smarts:[c:1][O:2][C:3](=[O:4])[C
 id:37 name:フィッシャーエステル合成反応 site:CC(=O)Oc smarts:[C:1][C:2](=[O:3])[O:4][c:5] >> [C:1][C:2](=[O:3])O.[O:4][c:5] condition:酸触媒を用いた基本的なエステル縮合反応。可逆反応であるため、アルコールを過剰量加える、濃硫酸で脱水するといった手法で平衡を偏らせる必要がある。
 id:38 name:フィッシャーエステル合成反応 site:cC(=O)OC smarts:[c:1][C:2](=[O:3])[O:4][c:5] >> [c:1][C:2](=[O:3])O.[O:4][c:5] condition:酸触媒を用いた基本的なエステル縮合反応。可逆反応であるため、アルコールを過剰量加える、濃硫酸で脱水するといった手法で平衡を偏らせる必要がある。
 id:39 name:aaa site:aaa smarts:aaa condition:aaa
-id:42 name: site: smarts: condition:
